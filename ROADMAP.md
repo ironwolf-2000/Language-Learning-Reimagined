@@ -89,16 +89,34 @@ Still mocked in this iteration:
 - Word and sentence stress recordings aren't checked automatically yet. You play them back and compare by ear.
 - Only one chapter and one podcast episode have content. Other library tiles show a short notice.
 
-### Iteration 3: Writing and My corrections
-- [ ] Writing for beginners: situation phrases, with auto-check, native speakers, or private.
-- [ ] Writing studio: no help, [English gaps], points shown by entry size.
-- [ ] My corrections list: to review, waiting, all, and search.
-- [ ] One entry, several correctors:
-  - side-by-side view;
-  - notes grouped by person with numbered marks;
+### ✅ Iteration 3: Writing and My corrections
+- [x] **Writing for beginners** (stages 2–3):
+  - situations with their own drafts;
+  - type phrases yourself and optionally record each one;
+  - check automatically (free), ask native speakers (2 points, from stage 3) or keep private.
+- [x] **Writing studio** (stage 4 and up):
+  - a stretch prompt with "try to use" phrases that tick off as you use them, in any form;
+  - spell check and autocorrect turned off;
+  - [gaps] counted;
+  - the price follows the entry's length;
+  - finish it as an entry for native speakers or as private practice.
+- [x] **My corrections:** to review, waiting or all, with counts; search across titles, text and notes. The sidebar count is live.
+- [x] **One entry, several correctors:**
+  - side by side or one person at a time;
+  - numbered marks per person, and notes grouped by person;
   - star a note;
   - voice reading;
-  - per-corrector approval.
+  - approve each person separately, or ask a question;
+  - view the original.
+- [x] **Correction layers** (`src/lib/corrections.ts`): the original is never changed. Each corrector's edits are a separate layer anchored to ranges of the original, merged only for display.
+- [x] **Points rules** as pure functions with tests. They also fix a mismatch in the canvas, where Giulia's reward for a 96-word entry was shown as 13 instead of 5 + 3 = 8.
+- [x] **App state** (`src/app/store.ts`): sent entries, approvals, opened entries, starred notes, drafts and points. Saved in localStorage, with a dev "Reset demo" button.
+
+Still mocked in this iteration:
+- The automatic check is a short rule list (capitals, punctuation, gaps, a few common slips). A real grammar checker and dictionary come later.
+- Voice readings are spoken by speech synthesis.
+- A recording's own audio isn't stored, so the entry page shows its transcript only.
+- "Ask a question" isn't delivered anywhere yet.
 
 ### Iteration 4: Help others
 - [ ] Queue with "no corrections yet" and "no approved correction" filters, sorted by fewest corrections, then longest wait.

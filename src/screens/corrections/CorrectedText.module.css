@@ -1,0 +1,40 @@
+.text {
+  line-height: 1.9;
+  color: #1f2228;
+  white-space: pre-line;
+}
+
+.del {
+  color: var(--coral-ink);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+.ins {
+  text-decoration: none;
+  background: var(--teal-soft);
+  color: #0b5a4e;
+  border-radius: 4px;
+  padding: 0 3px;
+}
+
+.good {
+  background: var(--indigo-soft);
+  color: inherit;
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.or {
+  color: var(--muted);
+}
+
+.tag {
+  margin-left: 2px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  font: 700 10px var(--font-ui);
+  color: #fff;
+  vertical-align: 5px;
+  line-height: 1;
+}

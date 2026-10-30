@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router'
+import { actions } from './store'
 import { useStage } from './useStage'
 import { landingPath, STAGES, type Stage } from './stages'
 import styles from './DevStageSwitch.module.css'
@@ -25,6 +26,9 @@ export function DevStageSwitch() {
           </option>
         ))}
       </select>
+      <button type="button" onClick={() => actions.reset()} title="Clears sent entries, approvals, starred notes and drafts">
+        Reset demo
+      </button>
     </label>
   )
 }
