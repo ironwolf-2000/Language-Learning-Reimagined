@@ -1,11 +1,12 @@
 import { useRef, useState, type FormEvent, type MouseEvent } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router'
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { actions, useAppState } from '../../app/store'
 import { Avatar } from '../../components/avatar/Avatar'
 import { PlayButton } from '../../components/RoundButton'
 import { HELP_QUEUE, type HelpItem } from '../../data/helpQueue'
+import { learner } from '../../data/learner'
 import { applyEdits, buildSegments, withStarts, type Layer } from '../../lib/corrections'
-import { filterQueue } from '../../lib/helpQueue'
+import { correctionsLabel, waitLabel } from '../../lib/helpQueue'
 import { correctorReward, VOICE_BONUS } from '../../lib/points'
 import { overlaps, snapToWords } from '../../lib/selection'
 import { useSpeaker } from '../../lib/speech'
@@ -31,10 +32,17 @@ export function HelpEntryPage() {
   return sent ? <AlreadySent item={item} /> : <Correcting key={item.id} item={item} />
 }
 
+/** The queue exactly as the helper left it: same filters, same search. */
+function useQueueLink() {
+  const back = (useLocation().state as { back?: string } | null)?.back ?? ''
+  return `/help${back}`
+}
+
 function AlreadySent({ item }: { item: HelpItem }) {
+  const queue = useQueueLink()
   return (
     <>
-      <Link to="/help" className={styles.crumb}>Help others</Link>
+      <Link to={queue} className={styles.crumb}>Help others</Link>
       <div className={`card ${styles.done}`}>
         <strong>You’ve corrected “{item.title}”.</strong>
         <span>It’s waiting for {item.author.name} to approve. Your points arrive then.</span>
@@ -55,7 +63,7 @@ function originalOffset(node: Node, offset: number): number | null {
 
 function Correcting({ item }: { item: HelpItem }) {
   const navigate = useNavigate()
-  const helped = useAppState((s) => s.helped)
+  const queue = useQueueLink()
   const speaker = useSpeaker(HELP_LANG)
   const recorder = useRecorder({ maxSeconds: 120 })
   const textRef = useRef<HTMLDivElement>(null)
@@ -72,7 +80,6 @@ function Correcting({ item }: { item: HelpItem }) {
   const [withVoice, setWithVoice] = useState(false)
 
   const text = item.text
-  const others = filterQueue(HELP_QUEUE, { exclude: new Set(Object.keys(helped)) }).filter((i) => i.id !== item.id).slice(0, 3)
   const myEdits = edits.map((e) => ({ note: String(e.id), start: e.start, end: e.end, text: e.text }))
   const corrected = applyEdits(text, myEdits)
   const recorded = withVoice && !!recorder.recording
@@ -153,7 +160,7 @@ function Correcting({ item }: { item: HelpItem }) {
 
   const send = () => {
     actions.sendHelp(item.id, { author: item.author.name, changes, voice: recorded, reward, sentAt: new Date().toISOString() })
-    navigate('/help', { state: { sent: { author: item.author.name, reward } } })
+    navigate(queue, { state: { sent: { author: item.author.name, reward } } })
   }
 
   // Number edits in reading order, the way the author will see them.
@@ -169,7 +176,7 @@ function Correcting({ item }: { item: HelpItem }) {
     <>
       <header className={styles.header}>
         <div className={styles.headText}>
-          <Link to="/help" className={styles.crumb}>Help others</Link>
+          <Link to={queue} className={styles.crumb}>Help others</Link>
           <div className={styles.who}>
             <Avatar seed={item.author.seed} size={44} />
             <h1 className="display">Correcting {item.author.name}’s entry</h1>
@@ -179,30 +186,11 @@ function Correcting({ item }: { item: HelpItem }) {
       </header>
 
       <div className={styles.body}>
-        <nav aria-label="Waiting for a native speaker" className={styles.queueNav}>
-          <p className="eyebrow">Waiting · {others.length + 1}</p>
-          <span className={`${styles.q} ${styles.qNow}`}>
-            <strong>{item.title}</strong>
-            <span>{item.author.name} · {item.author.firstLanguage} speaker · {kindLabel(item).toLowerCase()}</span>
-            <em>You’re correcting this</em>
-          </span>
-          {others.map((o) => (
-            <Link key={o.id} to={`/help/${o.id}`} className={styles.q}>
-              <strong>{o.title}</strong>
-              <span>{o.author.name} · {o.author.firstLanguage} speaker · {kindLabel(o).toLowerCase()}</span>
-            </Link>
-          ))}
-          <div className={styles.tips}>
-            <strong>What makes a good correction</strong>
-            <span>Fix errors, but keep their voice and don’t rewrite their style. Say why in a line. Point out what already works.</span>
-          </div>
-        </nav>
 
         <section className={styles.work}>
           <div className={`card ${styles.entryCard}`}>
             <div className={styles.entryHead}>
               <span className="it">{item.title}</span>
-              {item.request && <span className={styles.muted}>{item.author.name} asked: “{item.request}”</span>}
             </div>
 
             {item.kind === 'recording' && (
@@ -368,6 +356,29 @@ function Correcting({ item }: { item: HelpItem }) {
             </button>
           </div>
         </section>
+
+        <aside className={styles.about}>
+          <div className={`card ${styles.aboutCard}`}>
+            <p className="eyebrow">About this entry</p>
+            <div className={styles.aboutWho}>
+              <Avatar seed={item.author.seed} size={40} />
+              <span>
+                <strong>{item.author.name}</strong>
+                <span>{item.author.firstLanguage} speaker, learning {learner.helpsWith}</span>
+              </span>
+            </div>
+            <dl className={styles.facts}>
+              <div><dt>Entry</dt><dd>{kindLabel(item)}</dd></div>
+              <div><dt>Waiting</dt><dd>{waitLabel(item.waitingHours)}</dd></div>
+              <div><dt>So far</dt><dd>{correctionsLabel(item.corrections)}</dd></div>
+            </dl>
+            {item.request && <p className={styles.request}>“{item.request}”</p>}
+          </div>
+          <div className={styles.tips}>
+            <strong>What makes a good correction</strong>
+            <span>Fix errors, but keep their voice and don’t rewrite their style. Say why in a line. Point out what already works.</span>
+          </div>
+        </aside>
       </div>
     </>
   )

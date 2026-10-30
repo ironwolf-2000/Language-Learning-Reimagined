@@ -1,5 +1,16 @@
 import { useSyncExternalStore } from 'react'
 import { DEMO_ENTRIES, type Entry } from '../data/entries'
+import {
+  DEMO_CALLS,
+  DEMO_INCOMING,
+  DEMO_OUTGOING,
+  DEMO_UPCOMING,
+  MY_BOOKING_SETTINGS,
+  type CallRecord,
+  type Incoming,
+  type Outgoing,
+  type Upcoming,
+} from '../data/speaking'
 import { entryStatus } from '../lib/corrections'
 
 /**
@@ -19,6 +30,11 @@ export type State = {
   studioDraft: { title: string; text: string } | null
   /** Corrections this learner sent to people learning their language, by queue entry. */
   helped: Record<string, HelpSent>
+  calls: CallRecord[]
+  upcoming: Upcoming[]
+  /** Requests from people who want to practise with you. `countered` is a time you suggested instead. */
+  incoming: (Incoming & { countered?: string })[]
+  outgoing: Outgoing[]
 }
 
 export type HelpSent = { author: string; changes: number; voice: boolean; reward: number; sentAt: string }
@@ -35,6 +51,10 @@ export function initialState(): State {
     phraseDrafts: {},
     studioDraft: null,
     helped: {},
+    calls: DEMO_CALLS,
+    upcoming: DEMO_UPCOMING,
+    incoming: DEMO_INCOMING,
+    outgoing: DEMO_OUTGOING,
   }
 }
 
@@ -89,6 +109,19 @@ export const actions = {
     set((s) => ({ ...s, created: [entry, ...s.created], points: s.points - (entry.sentForCorrection ? cost : 0) })),
   /** Points only arrive when the author approves, so nothing is credited yet. */
   sendHelp: (itemId: string, sent: HelpSent) => set((s) => ({ ...s, helped: { ...s.helped, [itemId]: sent } })),
+  logCall: (call: CallRecord) => set((s) => ({ ...s, calls: [call, ...s.calls] })),
+  sendCallRequest: (request: Outgoing) => set((s) => ({ ...s, outgoing: [request, ...s.outgoing] })),
+  withdrawCallRequest: (id: string) => set((s) => ({ ...s, outgoing: s.outgoing.filter((r) => r.id !== id) })),
+  acceptCallRequest: (id: string, slot: string) =>
+    set((s) => {
+      const r = s.incoming.find((x) => x.id === id)
+      if (!r) return s
+      const call: Upcoming = { id: `u-${id}`, with: r.from, seed: r.seed, slot, length: r.length, topic: r.set, youre: 'helping', rate: MY_BOOKING_SETTINGS.rate }
+      return { ...s, incoming: s.incoming.filter((x) => x.id !== id), upcoming: [...s.upcoming, call] }
+    }),
+  declineCallRequest: (id: string) => set((s) => ({ ...s, incoming: s.incoming.filter((x) => x.id !== id) })),
+  suggestOtherTime: (id: string, slot: string) =>
+    set((s) => ({ ...s, incoming: s.incoming.map((x) => (x.id === id ? { ...x, countered: slot } : x)) })),
   reset: () => set(() => initialState()),
 }
 

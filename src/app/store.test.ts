@@ -67,6 +67,28 @@ describe('store', () => {
     expect(getState().points).toBe(140)
   })
 
+  it('accepting a call request books it at the chosen time', () => {
+    actions.acceptCallRequest('i1', 'thu-18')
+    expect(getState().incoming.map((r) => r.id)).toEqual(['i2'])
+    expect(getState().upcoming.at(-1)).toMatchObject({ with: 'Lucía', slot: 'thu-18', youre: 'helping' })
+  })
+
+  it('declining removes the request; suggesting another time keeps it open', () => {
+    actions.suggestOtherTime('i2', 'sat-10')
+    expect(getState().incoming.find((r) => r.id === 'i2')?.countered).toBe('sat-10')
+    actions.declineCallRequest('i2')
+    expect(getState().incoming.map((r) => r.id)).toEqual(['i1'])
+  })
+
+  it('sends and withdraws your own call requests, and logs finished calls first', () => {
+    actions.sendCallRequest({ id: 'o1', personId: 'giulia', length: 'About 15 min', set: 'Job interview', slots: ['tue-19'], message: '', sentAt: new Date().toISOString() })
+    expect(getState().outgoing).toHaveLength(1)
+    actions.withdrawCallRequest('o1')
+    expect(getState().outgoing).toHaveLength(0)
+    actions.logCall({ id: 'x', with: 'Elisa', seed: 14, minutes: 6, role: 'learn', topic: 'Free talk', notes: '', at: new Date().toISOString() })
+    expect(getState().calls[0].id).toBe('x')
+  })
+
   it('reset brings back the demo state', () => {
     actions.createEntry(newEntry(true), 5)
     actions.reset()

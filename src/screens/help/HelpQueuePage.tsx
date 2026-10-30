@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router'
+import { Link, useLocation, useSearchParams } from 'react-router'
 import { useAppState } from '../../app/store'
 import { Avatar } from '../../components/avatar/Avatar'
 import { Icon } from '../../components/Icon'
@@ -27,9 +26,25 @@ export function HelpQueuePage() {
   const location = useLocation()
   const justSent = (location.state as { sent?: { author: string; reward: number } } | null)?.sent
   const helped = useAppState((s) => s.helped)
-  const [show, setShow] = useState<Show>('none')
-  const [type, setType] = useState<TypeFilter>('all')
-  const [query, setQuery] = useState('')
+  // Filters live in the URL, so coming back from an entry restores the same list in the same order.
+  const [params, setParams] = useSearchParams()
+  const show = (SHOW.some((o) => o.value === params.get('show')) ? params.get('show') : 'none') as Show
+  const type = (TYPES.some((o) => o.value === params.get('type')) ? params.get('type') : 'all') as TypeFilter
+  const query = params.get('q') ?? ''
+  const setParam = (key: string, value: string, fallback: string) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev)
+        if (value === fallback) next.delete(key)
+        else next.set(key, value)
+        return next
+      },
+      { replace: true, state: null },
+    )
+  const setShow = (v: Show) => setParam('show', v, 'none')
+  const setType = (v: TypeFilter) => setParam('type', v, 'all')
+  const setQuery = (v: string) => setParam('q', v, '')
+  const back = location.search
 
   const exclude = new Set(Object.keys(helped))
   const items = filterQueue(HELP_QUEUE, { show, type, query, exclude })
@@ -82,7 +97,7 @@ export function HelpQueuePage() {
       ) : (
         <div className={styles.grid}>
           {items.map((item) => (
-            <Link key={item.id} to={`/help/${item.id}`} className={`card ${styles.card}`}>
+            <Link key={item.id} to={`/help/${item.id}`} state={{ back }} className={`card ${styles.card}`}>
               <div className={styles.cardHead}>
                 <Avatar seed={item.author.seed} size={36} />
                 <span className={styles.author}>

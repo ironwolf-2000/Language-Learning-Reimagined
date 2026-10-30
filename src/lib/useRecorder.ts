@@ -33,7 +33,13 @@ async function analyse(blob: Blob, buckets: number, contourPoints: number) {
  * Records the learner's own voice. Recordings stay in the browser for now:
  * nothing is uploaded until there is a backend.
  */
-export function useRecorder({ buckets = 48, maxSeconds = 10, contourPoints = 0 } = {}) {
+export function useRecorder({
+  buckets = 48,
+  maxSeconds = 10,
+  contourPoints = 0,
+  /** Keep earlier recordings playable (their URLs aren't revoked) when a new one arrives. */
+  keepPrevious = false,
+} = {}) {
   const [status, setStatus] = useState<RecorderStatus>(supported ? 'idle' : 'unsupported')
   const [recording, setRecording] = useState<Recording | null>(null)
   const recorder = useRef<MediaRecorder | null>(null)
@@ -56,7 +62,7 @@ export function useRecorder({ buckets = 48, maxSeconds = 10, contourPoints = 0 }
         const blob = new Blob(chunks, { type: rec.mimeType })
         const analysed = await analyse(blob, buckets, contourPoints)
         setRecording((prev) => {
-          if (prev) URL.revokeObjectURL(prev.url)
+          if (prev && !keepPrevious) URL.revokeObjectURL(prev.url)
           return { url: URL.createObjectURL(blob), ...analysed }
         })
         setStatus('idle')
@@ -68,7 +74,7 @@ export function useRecorder({ buckets = 48, maxSeconds = 10, contourPoints = 0 }
     } catch {
       setStatus('denied')
     }
-  }, [buckets, contourPoints, maxSeconds, stop])
+  }, [buckets, contourPoints, keepPrevious, maxSeconds, stop])
 
   const clear = useCallback(() => {
     setRecording((prev) => {

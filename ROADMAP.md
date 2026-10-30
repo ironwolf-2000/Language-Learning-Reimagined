@@ -133,6 +133,7 @@ Still mocked in this iteration:
   - optionally record the corrected text aloud (+3);
   - "Send correction".
 - [x] Selections always map back to offsets in the author's unchanged original (`snapToWords`, `withStarts`). The helper's changes use the same layer format as My corrections.
+- [x] No list of other people's entries while you correct. Instead, an "About this entry" panel shows who wrote it, their first language, its length, the wait, corrections so far and their request. The queue's filters live in the URL, so "Help others" and sending a correction both return to the same list in the same order.
 - [x] Helper stats (approved / sent) and a confirmation after sending. Points are only credited when the author approves.
 - [x] Checked end to end in headless Chrome: selecting, saving, reopening, the praise requirement, and sending.
 
@@ -140,11 +141,34 @@ Still mocked in this iteration:
 - Sent corrections aren't delivered to anyone, so they never get approved in the demo.
 - A recording's "audio" is speech synthesis reading its transcript.
 
-### Iteration 5: Speaking
-- [ ] Calls: talk now (role, rough length of 5, 15 or 30 minutes or open-ended, topic or question set) and solo recordings.
-- [ ] In-call screen: audio only, a private notepad, the question set, mute, end, report.
-- [ ] Booked calls: upcoming calls, requests for you, your requests.
-- [ ] Requesting a call from a profile: rough length, up to 3 times within the person's availability, a fair-use limit.
+### ✅ Iteration 5: Speaking
+- [x] **Calls › Talk now:**
+  - choose a role (practise Italian or help with English) and a rough length (about 5, 15 or 30 minutes, or open-ended);
+  - learners pick a topic, helpers pick a question set;
+  - "Find someone" goes to matching, then the call.
+- [x] **In a call** (full screen, no sidebar):
+  - partner avatar, a live mic level and real mute;
+  - a timer showing the length as a heads-up, never a limit;
+  - the question set: helpers move through it themselves, while a learner's partner moves on only after they've answered and paused;
+  - a private notepad; [gaps] are saved to Recent calls;
+  - "if you get stuck" phrases;
+  - End call, and Report with a confirmation.
+- [x] **Book a call:** cards for natives with their own rates. "Request a call" offers a rough length, up to 3 times within the person's usual free slots, a question set and a message. One open request per person. The cost estimate is charged by the minute.
+- [x] **Booked:**
+  - upcoming calls in time order (Join opens 5 min before);
+  - requests for you: accept one of their times, suggest another of yours, or decline without a reason;
+  - your own requests can be withdrawn;
+  - a quiet count on the tab, with no pings.
+- [x] **Solo recording:**
+  - prompts, as many takes as you like, each with its waveform, and you pick the one to keep;
+  - an automatic transcript where the browser supports speech recognition (read-only, so it's what you said);
+  - send for corrections (priced by length) or save privately.
+- [x] Checked end to end in headless Chrome with a fake microphone: the call flow, mute, notes, accepting a booking, the request limit, and solo takes.
+
+Still mocked in this iteration:
+- The other person in a call is simulated. When you practise Italian, speech synthesis asks the questions. Real calls need WebRTC and a matching service.
+- Joining a booked call isn't wired up. Accepted requests and your own requests stay in this browser.
+- Solo audio isn't stored, only its transcript and length.
 
 ### Iteration 6: Profile and people
 - [ ] Profile overview for beginners and for the full stage:

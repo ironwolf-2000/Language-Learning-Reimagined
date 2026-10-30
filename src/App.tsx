@@ -9,6 +9,11 @@ import { CorrectionsListPage } from './screens/corrections/CorrectionsListPage'
 import { EntryPage } from './screens/corrections/EntryPage'
 import { HelpEntryPage } from './screens/help/HelpEntryPage'
 import { HelpQueuePage } from './screens/help/HelpQueuePage'
+import { BookedPage } from './screens/speaking/BookedPage'
+import { CallPage } from './screens/speaking/CallPage'
+import { CallsPage } from './screens/speaking/CallsPage'
+import { RequestPage } from './screens/speaking/RequestPage'
+import { SoloPage } from './screens/speaking/SoloPage'
 import { LibraryPage } from './screens/library/LibraryPage'
 import { ListeningPage } from './screens/listen/ListeningPage'
 import { ReaderPage } from './screens/listen/ReaderPage'
@@ -74,11 +79,16 @@ export default function App() {
             <Route path="corrections/:id" element={<Gate section="corrections"><EntryPage /></Gate>} />
             <Route path="help" element={<Gate section="help"><HelpQueuePage /></Gate>} />
             <Route path="help/:id" element={<Gate section="help"><HelpEntryPage /></Gate>} />
-            <Route path="speaking/*" element={<Gate section="speaking"><ComingSoon title="Speaking" iteration={5} /></Gate>} />
+            <Route path="speaking" element={<Gate section="speaking"><CallsPage /></Gate>} />
+            <Route path="speaking/solo" element={<Gate section="speaking"><SoloPage /></Gate>} />
+            <Route path="speaking/booked" element={<Gate section="speaking"><BookedPage /></Gate>} />
+            <Route path="speaking/request/:personId" element={<Gate section="speaking"><RequestPage /></Gate>} />
             <Route path="profile/*" element={<Gate section="profile"><ComingSoon title="Profile" iteration={6} /></Gate>} />
             <Route path="people/:id" element={<ComingSoon title="Someone else’s profile" iteration={6} />} />
             <Route path="settings/*" element={<ComingSoon title="Settings" iteration={7} />} />
           </Route>
+          {/* A call takes the whole screen: no sidebar, nothing else competing for attention. */}
+          <Route path="speaking/call" element={<Gate section="speaking"><CallPage /></Gate>} />
           <Route path="*" element={<Landing />} />
         </Routes>
       </BrowserRouter>

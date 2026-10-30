@@ -244,49 +244,69 @@
   align-items: flex-start;
 }
 
-.queueNav {
+.about {
   flex: 1 1 260px;
-  max-width: 300px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-.queueNav :global(.eyebrow) {
-  padding: 0 4px 6px;
+  gap: 16px;
+  position: sticky;
+  top: 24px;
 }
 
-.q {
+.aboutCard {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 16px;
-  border: 1.5px solid transparent;
-  border-radius: 14px;
-  text-decoration: none;
-  color: var(--ink);
+  gap: 14px;
+}
+
+.aboutWho {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.aboutWho > span {
+  display: flex;
+  flex-direction: column;
   font-size: 15px;
 }
-.q:hover {
-  color: var(--ink);
-  background: var(--surface);
-}
-.q span {
+.aboutWho > span span {
   font-size: 13px;
   color: var(--muted);
 }
-.q em {
-  font-style: normal;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--indigo);
+
+.facts {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line-soft);
 }
-.qNow {
-  background: var(--surface);
-  border-color: var(--indigo);
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13px;
+}
+.facts dt {
+  color: var(--muted);
+}
+.facts dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+}
+
+.request {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
 }
 
 .tips {
-  margin-top: 10px;
   padding: 16px;
   border: 1px dashed var(--line-strong);
   border-radius: 14px;
