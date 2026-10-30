@@ -58,6 +58,17 @@ export function buildSegments(original: string, layers: Layer[]): Segment[] {
   return out
 }
 
+/** Adds where each segment starts in the original, so on-screen selections can be mapped back to it. */
+export function withStarts(segments: Segment[]): (Segment & { start: number })[] {
+  const out: (Segment & { start: number })[] = []
+  let pos = 0
+  for (const seg of segments) {
+    out.push({ ...seg, start: pos })
+    pos += seg.kind === 'text' ? seg.text.length : seg.original.length
+  }
+  return out
+}
+
 /** The original with one corrector's edits applied: what their voice reading says. */
 export function applyEdits(original: string, edits: Edit[]): string {
   let out = ''

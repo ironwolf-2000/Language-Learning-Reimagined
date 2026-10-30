@@ -17,7 +17,11 @@ export type State = {
   created: Entry[]
   phraseDrafts: Record<string, string[]>
   studioDraft: { title: string; text: string } | null
+  /** Corrections this learner sent to people learning their language, by queue entry. */
+  helped: Record<string, HelpSent>
 }
+
+export type HelpSent = { author: string; changes: number; voice: boolean; reward: number; sentAt: string }
 
 const KEY = 'llr.store.v1'
 
@@ -30,6 +34,7 @@ export function initialState(): State {
     created: [],
     phraseDrafts: {},
     studioDraft: null,
+    helped: {},
   }
 }
 
@@ -82,6 +87,8 @@ export const actions = {
   /** Adds an entry and pays for its correction, if it's going to native speakers. */
   createEntry: (entry: Entry, cost: number) =>
     set((s) => ({ ...s, created: [entry, ...s.created], points: s.points - (entry.sentForCorrection ? cost : 0) })),
+  /** Points only arrive when the author approves, so nothing is credited yet. */
+  sendHelp: (itemId: string, sent: HelpSent) => set((s) => ({ ...s, helped: { ...s.helped, [itemId]: sent } })),
   reset: () => set(() => initialState()),
 }
 

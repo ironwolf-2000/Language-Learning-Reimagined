@@ -61,6 +61,12 @@ describe('store', () => {
     expect(getState().savedNotes).not.toContain('backend:G1')
   })
 
+  it('records a sent correction without paying out before approval', () => {
+    actions.sendHelp('kenji-lab', { author: 'Kenji', changes: 3, voice: true, reward: 8, sentAt: new Date().toISOString() })
+    expect(getState().helped['kenji-lab'].reward).toBe(8)
+    expect(getState().points).toBe(140)
+  })
+
   it('reset brings back the demo state', () => {
     actions.createEntry(newEntry(true), 5)
     actions.reset()

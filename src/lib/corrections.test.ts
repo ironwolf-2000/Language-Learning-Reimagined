@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { applyEdits, buildSegments, entryStatus, rangeOf } from './corrections'
+import { applyEdits, buildSegments, entryStatus, rangeOf, withStarts } from './corrections'
 
 const text = 'Ho provato di farlo, ma doveva andare meglio.'
 const r = (needle: string, nth = 0) => rangeOf(text, needle, nth)
@@ -96,5 +96,12 @@ describe('entryStatus', () => {
   it('is done when every correction is approved', () => {
     expect(entryStatus({ ...base, correctors: ['g'], approved: new Set(['g']) }).label).toBe('Approved')
     expect(entryStatus({ ...base, correctors: ['g', 'm'], approved: new Set(['g', 'm']) }).label).toBe('Both approved')
+  })
+})
+
+describe('withStarts', () => {
+  it('records where each segment starts in the original, ignoring inserted text', () => {
+    const segs = withStarts(buildSegments(text, [{ id: 'g', edits: [{ note: 'G1', ...r('di'), text: 'a molto lungo' }] }]))
+    expect(segs.map((s) => s.start)).toEqual([0, 11, 13])
   })
 })

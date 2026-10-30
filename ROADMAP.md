@@ -118,10 +118,27 @@ Still mocked in this iteration:
 - A recording's own audio isn't stored, so the entry page shows its transcript only.
 - "Ask a question" isn't delivered anywhere yet.
 
-### Iteration 4: Help others
-- [ ] Queue with "no corrections yet" and "no approved correction" filters, sorted by fewest corrections, then longest wait.
-- [ ] Correcting one entry: inline edits, notes, and an optional voice reading.
-- [ ] Points rules as pure functions, with tests.
+### ✅ Iteration 4: Help others
+- [x] **Queue:**
+  - filters for no corrections yet, corrected but not approved, or everything;
+  - written or recordings, plus search;
+  - sorted by fewest corrections, then longest wait;
+  - each card shows its points, its correction status and how long it has waited;
+  - entries you've already corrected leave the queue.
+- [x] **Correcting one entry:**
+  - select words by dragging, clicking or typing them (the typed route works from the keyboard);
+  - write the fix and a one-line reason, and pick a category, or mark a part as good;
+  - click a change to edit or remove it;
+  - "something that already works well" is required;
+  - optionally record the corrected text aloud (+3);
+  - "Send correction".
+- [x] Selections always map back to offsets in the author's unchanged original (`snapToWords`, `withStarts`). The helper's changes use the same layer format as My corrections.
+- [x] Helper stats (approved / sent) and a confirmation after sending. Points are only credited when the author approves.
+- [x] Checked end to end in headless Chrome: selecting, saving, reopening, the praise requirement, and sending.
+
+Still mocked in this iteration:
+- Sent corrections aren't delivered to anyone, so they never get approved in the demo.
+- A recording's "audio" is speech synthesis reading its transcript.
 
 ### Iteration 5: Speaking
 - [ ] Calls: talk now (role, rough length of 5, 15 or 30 minutes or open-ended, topic or question set) and solo recordings.
@@ -148,6 +165,7 @@ Still mocked in this iteration:
 - [ ] Audio calls over WebRTC, with moderation and reporting.
 - [ ] Curated content pipeline: about 98% comprehension, 4–6 new items per session, new words recycled in later materials.
 - [ ] Tablet and phone layouts; the designs are desktop-only for now.
+- [ ] End-to-end tests (Playwright) for the main flows: sending an entry, approving, correcting someone else’s entry.
 
 ## Conventions
 

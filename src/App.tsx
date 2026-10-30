@@ -7,6 +7,8 @@ import { AppShell } from './components/AppShell'
 import { ComingSoon } from './screens/ComingSoon'
 import { CorrectionsListPage } from './screens/corrections/CorrectionsListPage'
 import { EntryPage } from './screens/corrections/EntryPage'
+import { HelpEntryPage } from './screens/help/HelpEntryPage'
+import { HelpQueuePage } from './screens/help/HelpQueuePage'
 import { LibraryPage } from './screens/library/LibraryPage'
 import { ListeningPage } from './screens/listen/ListeningPage'
 import { ReaderPage } from './screens/listen/ReaderPage'
@@ -70,7 +72,8 @@ export default function App() {
             <Route path="writing" element={<Gate section="writing"><WritingHome /></Gate>} />
             <Route path="corrections" element={<Gate section="corrections"><CorrectionsListPage /></Gate>} />
             <Route path="corrections/:id" element={<Gate section="corrections"><EntryPage /></Gate>} />
-            <Route path="help/*" element={<Gate section="help"><ComingSoon title="Help others" iteration={4} /></Gate>} />
+            <Route path="help" element={<Gate section="help"><HelpQueuePage /></Gate>} />
+            <Route path="help/:id" element={<Gate section="help"><HelpEntryPage /></Gate>} />
             <Route path="speaking/*" element={<Gate section="speaking"><ComingSoon title="Speaking" iteration={5} /></Gate>} />
             <Route path="profile/*" element={<Gate section="profile"><ComingSoon title="Profile" iteration={6} /></Gate>} />
             <Route path="people/:id" element={<ComingSoon title="Someone else’s profile" iteration={6} />} />
