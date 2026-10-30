@@ -1,0 +1,31 @@
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 14px var(--font-ui);
+  cursor: pointer;
+}
+.pill:hover {
+  border-color: #b9bdc7;
+}
+
+.dark[aria-checked='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.soft[aria-checked='true'] {
+  background: var(--indigo-soft);
+  border-color: var(--indigo);
+  color: var(--indigo);
+}

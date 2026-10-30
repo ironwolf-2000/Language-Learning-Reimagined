@@ -1,0 +1,29 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  flex: 0 0 var(--sidebar-w);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.main {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: 40px 48px 72px;
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}

@@ -1,0 +1,132 @@
+.sidebar {
+  height: 100vh;
+  min-height: 560px;
+  padding: 24px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--surface);
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.languageName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.link:hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+.link[aria-current='page'] {
+  background: var(--indigo-soft);
+  color: var(--indigo);
+  font-weight: 600;
+}
+
+.label {
+  flex: 1;
+}
+
+.count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--fill);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.user {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 8px 0;
+  border-top: 1px solid var(--line);
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.userMeta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.settings {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.settings:hover,
+.settings[aria-current='page'] {
+  background: var(--bg);
+  color: var(--ink);
+}

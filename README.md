@@ -6,6 +6,18 @@ The platform doesn't rely on flashcards, streaks or an endless pile of material 
 
 > **Status:** concept and screen designs (desktop web). The design canvas uses Italian as the example target language and English for the interface.
 
+## Development
+
+```sh
+npm install
+npm run dev     # http://localhost:5173
+npm test        # unit tests (Vitest)
+npm run build   # type-check and production build
+npm run lint
+```
+
+The app is a Vite + React + TypeScript project that is being built screen by screen. [ROADMAP.md](ROADMAP.md) has the plan and shows what's done. In development, a stage switcher in the bottom-right corner previews the platform at each stage of the ladder.
+
 ---
 
 ## Who it's for
