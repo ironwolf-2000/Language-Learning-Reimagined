@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router'
-import { actions, allEntries, daysSince, selectEntries, useAppState } from '../../app/store'
+import { actions, allEntries, daysSince, selectEntries, useAppState, visibilityOf } from '../../app/store'
 import { Avatar } from '../../components/avatar/Avatar'
 import type { Correction, Entry } from '../../data/entries'
 import { learner } from '../../data/learner'
@@ -14,15 +14,18 @@ import { CorrectedText } from './CorrectedText'
 import { formatLongDate } from './entryMeta'
 import styles from './Corrections.module.css'
 
-export function EntryPage() {
+/** One entry. Opened from My corrections, or from the archive (which also holds practice-only entries). */
+export function EntryPage({ from = 'corrections' }: { from?: 'corrections' | 'archive' }) {
   const { id = '' } = useParams()
   const created = useAppState(selectEntries)
   const entry = allEntries(created).find((e) => e.id === id)
-  if (!entry) return <Navigate to="/corrections" replace />
-  return <EntryView key={entry.id} entry={entry} />
+  const back = from === 'archive' ? '/profile/archive' : '/corrections'
+  if (!entry) return <Navigate to={back} replace />
+  return <EntryView key={entry.id} entry={entry} from={from} />
 }
 
-function EntryView({ entry }: { entry: Entry }) {
+function EntryView({ entry, from }: { entry: Entry; from: 'corrections' | 'archive' }) {
+  const vis = useAppState((s) => visibilityOf(entry, s))
   const multi = entry.corrections.length > 1
   const [view, setView] = useState<'all' | PersonId>(multi ? 'all' : (entry.corrections[0]?.by ?? 'all'))
   const [showOriginal, setShowOriginal] = useState(false)
@@ -31,18 +34,36 @@ function EntryView({ entry }: { entry: Entry }) {
   useEffect(() => actions.markOpened(entry.id), [entry.id])
 
   const size = entry.kind === 'recording' ? formatTime(entry.seconds ?? 0) : `${countWords(entry.original)} words`
-  const who = entry.corrections.length
-    ? `corrected by ${entry.corrections.length} native ${entry.corrections.length === 1 ? 'speaker' : 'speakers'}`
-    : 'waiting for a native speaker'
-  const visibility = entry.visibility === 'public' ? 'visible on your profile' : 'only you can see it'
+  const who = !entry.sentForCorrection
+    ? 'practice only, not sent for corrections'
+    : entry.corrections.length
+      ? `corrected by ${entry.corrections.length} native ${entry.corrections.length === 1 ? 'speaker' : 'speakers'}`
+      : 'waiting for a native speaker'
 
   return (
     <>
       <header className={styles.entryHeader}>
-        <Link to="/corrections" className={styles.crumb}>My corrections</Link>
-        <h1 className={`it ${styles.entryTitle}`} lang="it">{entry.title}</h1>
+        <Link to={from === 'archive' ? '/profile/archive' : '/corrections'} className={styles.crumb}>
+          {from === 'archive' ? 'Archive' : 'My corrections'}
+        </Link>
+        <div className={styles.titleRow}>
+          <h1 className={`it ${styles.entryTitle}`} lang="it">{entry.title}</h1>
+          <div className={styles.visToggle} role="radiogroup" aria-label="Who can see this entry">
+            {(
+              [
+                ['public', 'Public'],
+                ['private', 'Only you'],
+              ] as const
+            ).map(([k, label]) => (
+              <button key={k} type="button" role="radio" aria-checked={vis === k} onClick={() => actions.setVisibility(entry.id, k)}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
         <span className={styles.muted} style={{ fontSize: 14 }}>
-          {entry.kind === 'recording' ? 'Recorded' : 'Written'} {formatLongDate(entry.createdAt)} · {size} · {who} · {visibility}
+          {entry.kind === 'recording' ? 'Recorded' : 'Written'} {formatLongDate(entry.createdAt)} · {size} · {who} ·{' '}
+          {vis === 'public' ? 'visible on your profile' : 'only you can see it'}
         </span>
       </header>
 
@@ -82,8 +103,8 @@ function EntryView({ entry }: { entry: Entry }) {
               <CorrectedText original={entry.original} corrections={shown} />
             )}
             <p className={styles.textFoot}>
-              Your original is stored exactly as you {entry.kind === 'recording' ? 'said' : 'wrote'} it. Each person’s corrections are a
-              separate layer linked to it.{' '}
+              Your original is stored exactly as you {entry.kind === 'recording' ? 'said' : 'wrote'} it.
+              {entry.corrections.length > 0 && ' Each person’s corrections are a separate layer linked to it.'}{' '}
               {shown.length > 0 && (
                 <button type="button" className={styles.linkBtn} onClick={() => setShowOriginal(!showOriginal)}>
                   {showOriginal ? 'Show corrections' : 'View original'}
@@ -92,7 +113,7 @@ function EntryView({ entry }: { entry: Entry }) {
             </p>
           </div>
 
-          {entry.corrections.length === 0 && (
+          {entry.sentForCorrection && entry.corrections.length === 0 && (
             <div className={`card ${styles.waitingCard}`}>
               <strong>Waiting for a native speaker</strong>
               <span>

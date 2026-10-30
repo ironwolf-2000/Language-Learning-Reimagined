@@ -35,6 +35,8 @@ export type State = {
   /** Requests from people who want to practise with you. `countered` is a time you suggested instead. */
   incoming: (Incoming & { countered?: string })[]
   outgoing: Outgoing[]
+  /** Entries whose visibility the learner changed. */
+  visibility: Record<string, 'public' | 'private'>
 }
 
 export type HelpSent = { author: string; changes: number; voice: boolean; reward: number; sentAt: string }
@@ -55,6 +57,7 @@ export function initialState(): State {
     upcoming: DEMO_UPCOMING,
     incoming: DEMO_INCOMING,
     outgoing: DEMO_OUTGOING,
+    visibility: {},
   }
 }
 
@@ -122,6 +125,8 @@ export const actions = {
   declineCallRequest: (id: string) => set((s) => ({ ...s, incoming: s.incoming.filter((x) => x.id !== id) })),
   suggestOtherTime: (id: string, slot: string) =>
     set((s) => ({ ...s, incoming: s.incoming.map((x) => (x.id === id ? { ...x, countered: slot } : x)) })),
+  setVisibility: (entryId: string, value: 'public' | 'private') =>
+    set((s) => ({ ...s, visibility: { ...s.visibility, [entryId]: value } })),
   reset: () => set(() => initialState()),
 }
 
@@ -133,6 +138,8 @@ export const selectEntries = (s: State) => s.created
 export function allEntries(created: Entry[]): Entry[] {
   return [...created, ...DEMO_ENTRIES].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 }
+
+export const visibilityOf = (entry: Entry, s: Pick<State, 'visibility'>) => s.visibility[entry.id] ?? entry.visibility
 
 export const daysSince = (iso: string) => Math.max(0, Math.floor((Date.now() - Date.parse(iso)) / 86_400_000))
 

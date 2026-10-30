@@ -170,12 +170,37 @@ Still mocked in this iteration:
 - Joining a booked call isn't wired up. Accepted requests and your own requests stay in this browser.
 - Solo audio isn't stored, only its transcript and length.
 
-### Iteration 6: Profile and people
-- [ ] Profile overview for beginners and for the full stage:
-  - rolling-average sparklines;
-  - Words & phrases, Topics in your writing & speaking, and Saved notes groups.
-- [ ] Archive: search, virtualised endless grid of cards, public/only-you filter, compare two entries.
-- [ ] Someone else's profile: their languages, progress, public entries, "Request a call".
+### ✅ Iteration 6: Profile and people
+- [x] **Profile overview, full stage:**
+  - rolling-average sparklines (hover shows any day);
+  - A · Words & phrases: active and passive vocabulary, words you lean on, mistakes that keep coming back;
+  - B · Topics in your writing & speaking: output only, with a topic-share chart and "hard going" topics;
+  - C · Saved notes: live from the notes you star, unstar from here.
+- [x] **Profile overview for beginners:** stat tiles (familiar sounds come from Pronunciation data) and the two vocabulary columns.
+- [x] **Archive:**
+  - every entry grouped by month;
+  - search across titles, text and transcripts, ignoring accents;
+  - type and public/only-you filters;
+  - endless scroll that loads older months as you reach the bottom, with skeleton cards;
+  - each card shows its visibility and status (corrected, waiting, practice only).
+- [x] **Compare two:** pick any two entries in the archive.
+  - The older one is shown on the left.
+  - The heading counts the months apart.
+  - Each entry shows words, different words and correction notes.
+  - Phrases you picked up from reading are highlighted.
+- [x] **Entry visibility:** each entry can be switched between public and only-you on its page. Archive entries open with an "Archive" breadcrumb, and practice-only entries are labelled as such.
+- [x] **Someone else's profile:**
+  - their bio and languages (with a switch when there are several);
+  - progress sparklines, or "keeps their progress private";
+  - public entries; one that needs a correction in your language opens in Help others;
+  - their "helps with" record;
+  - "Request a call" only if they offer calls and Speaking is open for you;
+  - nothing about the viewer.
+- [x] Checked end to end in headless Chrome: unstarring, endless scroll, search and filters, compare and its highlights, changing visibility, profiles, and stage gating.
+
+Still mocked in this iteration:
+- Rolling averages, vocabulary counts, the words you lean on, recurring mistakes and topic shares are fixed demo data. They'll be computed from activity once there's a backend.
+- The archive loads by month, which is enough for the demo. Proper windowing (only rendering visible cards) should come when real archives hold hundreds of entries.
 
 ### Iteration 7: Settings and onboarding
 - [ ] Settings: You, Privacy, Calls (rate, availability grid, weekly cap), Email, Points ledger.

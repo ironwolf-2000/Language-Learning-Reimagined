@@ -423,3 +423,34 @@
 .star:hover {
   background: var(--fill);
 }
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.visToggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.visToggle button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font: 600 13px var(--font-ui);
+  cursor: pointer;
+}
+.visToggle button[aria-checked='true'] {
+  background: var(--ink);
+  color: #fff;
+}

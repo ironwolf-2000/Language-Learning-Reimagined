@@ -1,0 +1,35 @@
+.wrap {
+  position: relative;
+}
+
+.line {
+  fill: none;
+  stroke: var(--indigo);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.dot {
+  fill: var(--indigo);
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.cross {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.tip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}

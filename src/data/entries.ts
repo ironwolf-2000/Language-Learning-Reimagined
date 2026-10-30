@@ -69,6 +69,15 @@ const IDRAULICO = 'Buongiorno, ho un problema con il lavandino.\nL’acqua non v
 
 const AL_BAR = 'Un caffè, per favore.\nIo vorrei [a croissant].\nQuanto è?'
 
+const LAVORO_2025 =
+  'Io sono ingegnere di software. Io lavoro in una compania di Londra. Il mio lavoro è interessante ma molto difficile. Io scrivo codice ogni giorno e io parlo con mio team. Mi piace il mio lavoro perché è molto interessante.'
+
+const FAMIGLIA_2025 = 'Ho una sorella.\nMia madre abita a Leeds.\nIl mio padre è medico.'
+
+const PRESENTO_2025 = 'Ciao, mi chiamo Sam. Sono inglese. Abito a Londra. Mi piace il caffè e mi piace leggere.'
+
+const BAR_2025 = 'Un caffè, per favore.\nIo vorrei un cornetto.\nQuanto è?'
+
 export const DEMO_ENTRIES: Entry[] = [
   {
     id: 'backend',
@@ -259,6 +268,141 @@ export const DEMO_ENTRIES: Entry[] = [
           { note: 'P2', ...at(AL_BAR, '{Io vorrei}'), text: 'Vorrei' },
           { note: 'P3', ...at(AL_BAR, '{[a croissant]}'), text: 'un cornetto' },
           { note: 'P4', ...at(AL_BAR, '{Quanto è?}'), text: 'Quant’è?' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'torino',
+    title: 'Note: un weekend a Torino',
+    kind: 'written',
+    original:
+      'Sabato siamo andati al museo del cinema. Non avevo mai visto una cosa del genere: la Mole è altissima e dentro ci sono tantissimi oggetti dei vecchi film. Poi abbiamo bevuto un bicerin in un bar storico.',
+    createdAt: daysAgo(12),
+    visibility: 'private',
+    sentForCorrection: false,
+    corrections: [],
+  },
+  {
+    id: 'lavoro-oggi',
+    title: 'Il mio lavoro, oggi',
+    kind: 'written',
+    original:
+      'Lavoro come ingegnere del software in un’azienda che sviluppa strumenti per gli ospedali. Negli ultimi mesi mi occupo soprattutto dell’infrastruttura: in pratica faccio in modo che tutto funzioni anche quando qualcosa va storto. È un lavoro che mi piace parecchio, anche se a volte bisogna prendere decisioni in fretta senza avere tutte le informazioni. A lungo termine vorrei lavorare di più con le persone e meno con i server.',
+    createdAt: daysAgo(26),
+    visibility: 'public',
+    sentForCorrection: false,
+    corrections: [],
+  },
+  {
+    id: 'film',
+    title: 'Il film che ho visto ieri',
+    kind: 'recording',
+    seconds: 58,
+    original: 'Ieri ho visto un film di Sorrentino. Non ho capito tutto, ma le immagini erano bellissime e anche la musica.',
+    createdAt: daysAgo(28),
+    visibility: 'private',
+    sentForCorrection: false,
+    corrections: [],
+  },
+  {
+    id: 'lavoro-2025',
+    title: 'Il mio lavoro',
+    kind: 'written',
+    original: LAVORO_2025,
+    createdAt: '2025-03-18T09:00:00Z',
+    visibility: 'public',
+    sentForCorrection: true,
+    opened: true,
+    corrections: [
+      {
+        by: 'paola',
+        voice: false,
+        approved: true,
+        notes: [
+          { id: 'P1', before: 'No need for “io”: the verb already says who.', it: 'Sono ingegnere.' },
+          { id: 'P2', before: 'The usual way to say it:', it: 'ingegnere informatico' },
+          { id: 'P3', before: 'Careful with this one, it’s a false friend of “company”:', it: 'un’azienda' },
+          { id: 'P4', before: 'Possessives need the article, except with family:', it: 'il mio team' },
+        ],
+        edits: [
+          { note: 'P1', ...at(LAVORO_2025, '{Io sono} ingegnere'), text: 'Sono' },
+          { note: 'P2', ...at(LAVORO_2025, '{ingegnere di software}'), text: 'ingegnere informatico' },
+          { note: 'P1', ...at(LAVORO_2025, '{Io lavoro}'), text: 'Lavoro' },
+          { note: 'P3', ...at(LAVORO_2025, 'in {una compania}'), text: 'un’azienda' },
+          { note: 'P1', ...at(LAVORO_2025, '{Io scrivo}'), text: 'Scrivo' },
+          { note: 'P1', ...at(LAVORO_2025, 'e {io parlo}'), text: 'parlo' },
+          { note: 'P4', ...at(LAVORO_2025, 'con {mio team}'), text: 'il mio team' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'famiglia-2025',
+    title: 'La mia famiglia',
+    kind: 'phrases',
+    original: FAMIGLIA_2025,
+    createdAt: '2025-03-12T09:00:00Z',
+    visibility: 'private',
+    sentForCorrection: true,
+    opened: true,
+    corrections: [
+      {
+        by: 'paola',
+        voice: false,
+        approved: true,
+        notes: [{ id: 'P1', before: 'No article with a single family member:', it: 'mio padre, mia madre.' }],
+        edits: [{ note: 'P1', ...at(FAMIGLIA_2025, '{Il mio padre}'), text: 'Mio padre' }],
+      },
+    ],
+  },
+  {
+    id: 'presento-2025',
+    title: 'Mi presento',
+    kind: 'recording',
+    seconds: 41,
+    original: PRESENTO_2025,
+    createdAt: '2025-03-09T09:00:00Z',
+    visibility: 'public',
+    sentForCorrection: true,
+    opened: true,
+    corrections: [
+      {
+        by: 'elisa',
+        voice: true,
+        approved: true,
+        notes: [
+          { id: 'E1', before: 'Lovely, clear “ch” in', it: 'mi chiamo.' },
+          { id: 'E2', before: 'You can join the two likes:', it: 'Mi piacciono il caffè e la lettura.', after: 'Yours is fine too.' },
+        ],
+        edits: [
+          { note: 'E1', ...at(PRESENTO_2025, '{mi chiamo Sam}') },
+          { note: 'E2', ...at(PRESENTO_2025, '{Mi piace il caffè e mi piace leggere}') },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'bar-2025',
+    title: 'Al bar',
+    kind: 'phrases',
+    original: BAR_2025,
+    createdAt: '2025-03-04T09:00:00Z',
+    visibility: 'private',
+    sentForCorrection: true,
+    opened: true,
+    corrections: [
+      {
+        by: 'paola',
+        voice: false,
+        approved: true,
+        notes: [
+          { id: 'P1', before: 'The verb already says who:', it: 'Vorrei un cornetto.' },
+          { id: 'P2', before: 'At the till, people almost always say', it: 'Quant’è?' },
+        ],
+        edits: [
+          { note: 'P1', ...at(BAR_2025, '{Io vorrei}'), text: 'Vorrei' },
+          { note: 'P2', ...at(BAR_2025, '{Quanto è?}'), text: 'Quant’è?' },
         ],
       },
     ],

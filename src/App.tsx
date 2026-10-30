@@ -22,6 +22,10 @@ import { IntonationPage } from './screens/pronunciation/IntonationPage'
 import { SentenceStressPage } from './screens/pronunciation/SentenceStressPage'
 import { SoundsPage } from './screens/pronunciation/SoundsPage'
 import { WordStressPage } from './screens/pronunciation/WordStressPage'
+import { ArchivePage } from './screens/profile/ArchivePage'
+import { ComparePage } from './screens/profile/ComparePage'
+import { OverviewPage } from './screens/profile/OverviewPage'
+import { PersonPage } from './screens/profile/PersonPage'
 import { PhrasesPage } from './screens/writing/PhrasesPage'
 import { StudioPage } from './screens/writing/StudioPage'
 
@@ -83,8 +87,12 @@ export default function App() {
             <Route path="speaking/solo" element={<Gate section="speaking"><SoloPage /></Gate>} />
             <Route path="speaking/booked" element={<Gate section="speaking"><BookedPage /></Gate>} />
             <Route path="speaking/request/:personId" element={<Gate section="speaking"><RequestPage /></Gate>} />
-            <Route path="profile/*" element={<Gate section="profile"><ComingSoon title="Profile" iteration={6} /></Gate>} />
-            <Route path="people/:id" element={<ComingSoon title="Someone else’s profile" iteration={6} />} />
+            <Route path="profile" element={<Gate section="profile"><OverviewPage /></Gate>} />
+            <Route path="profile/archive" element={<Gate section="profile"><ArchivePage /></Gate>} />
+            <Route path="profile/compare" element={<Gate section="profile"><ComparePage /></Gate>} />
+            <Route path="profile/entries/:id" element={<Gate section="profile"><EntryPage from="archive" /></Gate>} />
+            {/* Other people's profiles are viewable at every stage. */}
+            <Route path="people/:id" element={<PersonPage />} />
             <Route path="settings/*" element={<ComingSoon title="Settings" iteration={7} />} />
           </Route>
           {/* A call takes the whole screen: no sidebar, nothing else competing for attention. */}

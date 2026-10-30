@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { Entry } from '../data/entries'
-import { actions, allEntries, getState, statusOf, toReviewCount } from './store'
+import { actions, allEntries, getState, statusOf, toReviewCount, visibilityOf } from './store'
 
 const newEntry = (sentForCorrection: boolean): Entry => ({
   id: `mine-${Math.random()}`,
@@ -87,6 +87,12 @@ describe('store', () => {
     expect(getState().outgoing).toHaveLength(0)
     actions.logCall({ id: 'x', with: 'Elisa', seed: 14, minutes: 6, role: 'learn', topic: 'Free talk', notes: '', at: new Date().toISOString() })
     expect(getState().calls[0].id).toBe('x')
+  })
+
+  it('lets each entry be made public or private', () => {
+    expect(visibilityOf(entry('torino'), getState())).toBe('private')
+    actions.setVisibility('torino', 'public')
+    expect(visibilityOf(entry('torino'), getState())).toBe('public')
   })
 
   it('reset brings back the demo state', () => {
