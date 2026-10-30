@@ -2,16 +2,27 @@ import type { ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { StageProvider } from './app/StageContext'
 import { useStage } from './app/useStage'
-import { isFull, isOpen, landingPath, type SectionKey } from './app/stages'
+import { isFull, isOpen, landingPath, PRONUNCIATION_TABS, type SectionKey } from './app/stages'
 import { AppShell } from './components/AppShell'
 import { ComingSoon } from './screens/ComingSoon'
 import { LibraryPage } from './screens/library/LibraryPage'
+import { ListeningPage } from './screens/listen/ListeningPage'
+import { ReaderPage } from './screens/listen/ReaderPage'
+import { ShadowingPage } from './screens/listen/ShadowingPage'
+import { IntonationPage } from './screens/pronunciation/IntonationPage'
+import { SentenceStressPage } from './screens/pronunciation/SentenceStressPage'
 import { SoundsPage } from './screens/pronunciation/SoundsPage'
+import { WordStressPage } from './screens/pronunciation/WordStressPage'
 
-/** Sections that aren't open at this stage simply don't exist: send people to their landing page. */
-function Gate({ section, children }: { section: SectionKey; children: ReactNode }) {
+/**
+ * Sections (and pronunciation tabs) that aren't open at this stage simply don't
+ * exist: send people to their landing page, with no message.
+ */
+function Gate({ section, path, children }: { section: SectionKey; path?: string; children: ReactNode }) {
   const { stage } = useStage()
-  return isOpen(section, stage) ? children : <Navigate to={landingPath(stage)} replace />
+  const tab = path ? PRONUNCIATION_TABS.find((t) => t.path === path) : undefined
+  const open = isOpen(section, stage) && (!tab || stage >= tab.opensAt)
+  return open ? children : <Navigate to={landingPath(stage)} replace />
 }
 
 function Landing() {
@@ -19,10 +30,15 @@ function Landing() {
   return <Navigate to={landingPath(stage)} replace />
 }
 
+/** Beginners shadow short scenes; real materials open at the sentence stage. */
 function ListenHome() {
   const { stage } = useStage()
-  return isFull(stage) ? <LibraryPage /> : <ComingSoon title="Listen & read" iteration={2} />
+  return isFull(stage) ? <LibraryPage /> : <ShadowingPage />
 }
+
+const pronunciation = (path: string, page: ReactNode) => (
+  <Route path={path.slice(1)} element={<Gate section="pronunciation" path={path}>{page}</Gate>} />
+)
 
 export default function App() {
   return (
@@ -31,15 +47,15 @@ export default function App() {
         <Routes>
           <Route index element={<Landing />} />
           <Route element={<AppShell />}>
-            <Route path="pronunciation" element={<Gate section="pronunciation"><PronunciationIndex /></Gate>} />
-            <Route path="pronunciation/sounds" element={<Gate section="pronunciation"><SoundsPage /></Gate>} />
-            <Route path="pronunciation/word-stress" element={<ComingSoon title="Word stress" iteration={2} />} />
-            <Route path="pronunciation/sentence-stress" element={<ComingSoon title="Sentence stress" iteration={2} />} />
-            <Route path="pronunciation/intonation" element={<ComingSoon title="Melody & rhythm" iteration={2} />} />
+            <Route path="pronunciation" element={<Navigate to="/pronunciation/sounds" replace />} />
+            {pronunciation('/pronunciation/sounds', <SoundsPage />)}
+            {pronunciation('/pronunciation/word-stress', <WordStressPage />)}
+            {pronunciation('/pronunciation/sentence-stress', <SentenceStressPage />)}
+            {pronunciation('/pronunciation/intonation', <IntonationPage />)}
 
             <Route path="listen" element={<Gate section="listen"><ListenHome /></Gate>} />
-            <Route path="listen/read/:id" element={<Gate section="listen"><ComingSoon title="Reader" iteration={2} /></Gate>} />
-            <Route path="listen/audio/:id" element={<Gate section="listen"><ComingSoon title="Listening" iteration={2} /></Gate>} />
+            <Route path="listen/read/:id" element={<Gate section="listen"><ReaderPage /></Gate>} />
+            <Route path="listen/audio/:id" element={<Gate section="listen"><ListeningPage /></Gate>} />
 
             <Route path="writing/*" element={<Gate section="writing"><ComingSoon title="Writing" iteration={3} /></Gate>} />
             <Route path="corrections/*" element={<Gate section="corrections"><ComingSoon title="My corrections" iteration={3} /></Gate>} />
@@ -54,8 +70,4 @@ export default function App() {
       </BrowserRouter>
     </StageProvider>
   )
-}
-
-function PronunciationIndex() {
-  return <Navigate to="/pronunciation/sounds" replace />
 }

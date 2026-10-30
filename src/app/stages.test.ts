@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isOpen, landingPath, navSections } from './stages'
+import { isOpen, landingPath, navSections, pronunciationTabs } from './stages'
 
 const keys = (stage: Parameters<typeof navSections>[0]) => navSections(stage).map((s) => s.key)
 
@@ -32,5 +32,16 @@ describe('stages', () => {
   it('labels the input section by stage', () => {
     expect(navSections(3).find((s) => s.key === 'listen')?.label(3)).toBe('Listen & read')
     expect(navSections(5).find((s) => s.key === 'listen')?.label(5)).toBe('Read & listen')
+  })
+})
+
+describe('pronunciation tabs', () => {
+  const labels = (stage: Parameters<typeof pronunciationTabs>[0]) => pronunciationTabs(stage).map((t) => t.label)
+
+  it('starts with sounds only, adds word stress with words, and melody with sentences', () => {
+    expect(labels(1)).toEqual(['Sounds & letters'])
+    expect(labels(2)).toEqual(['Sounds & letters', 'Word stress'])
+    expect(labels(3)).toEqual(['Sounds & letters', 'Word stress'])
+    expect(labels(4)).toEqual(['Sounds & letters', 'Word stress', 'Sentence stress', 'Intonation'])
   })
 })

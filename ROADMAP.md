@@ -67,15 +67,27 @@ The learner never sees stage names. In code they decide which sections exist and
   - search and type filter;
   - Continue, Picked for you, and Browse by topic.
 
-### Iteration 2: the rest of Pronunciation and input
-- [ ] Pronunciation tabs:
-  - Word stress (heard once, plus the three patterns and stress pairs);
-  - Sentence stress;
-  - Melody & rhythm (pitch line overlay, beat dots, clips by region).
-- [ ] Listen & read for beginners: shadowing a sentence.
-- [ ] Reader with quiet look-ups and the three end-of-chapter word groups.
-- [ ] Listening with subtitle peeks.
-- [ ] Logic for comfort signals: look-ups per session and subtitle time, with tests.
+### ✅ Iteration 2: the rest of Pronunciation and input
+- [x] Pronunciation tabs, which appear by stage: word stress at stage 2, sentence stress and melody at stage 4.
+  - **Word stress:** heard once, the three patterns, and stress pairs.
+  - **Sentence stress.**
+  - **Melody & rhythm:** pitch line overlay with beat dots and numbered notes, clips filterable by region, and the same question in three cities.
+- [x] **Listen & read for beginners:** shadowing a scene line by line. The three steps fill in as you listen, speak along and say it alone.
+- [x] **Reader with quiet look-ups:**
+  - tap a phrase for an Italian-first explanation, with English on request;
+  - the three word groups update live as you look things up;
+  - "how did it feel?" sets the pace for what comes next.
+- [x] **Listening with subtitle peeks:** off, peek or on; lines unlock as you hear them; loop and shadow a line.
+- [x] Comfort-signal logic with tests: the word groups, reading pace (about 98% comprehension) and listening comfort (peeks per minute).
+- [x] **Real melody comparison:**
+  - pitch tracking turns your recording into a melody line drawn over the speaker's;
+  - a plain-words comparison (ending rise, fall or level, and range) is shown with the pitch line;
+  - "Hum the melody" plays a contour as a tone.
+
+Still mocked in this iteration:
+- Speech synthesis stands in for native clips, so the speaker melodies are hand-written and regional melodies can only be hummed.
+- Word and sentence stress recordings aren't checked automatically yet. You play them back and compare by ear.
+- Only one chapter and one podcast episode have content. Other library tiles show a short notice.
 
 ### Iteration 3: Writing and My corrections
 - [ ] Writing for beginners: situation phrases, with auto-check, native speakers, or private.

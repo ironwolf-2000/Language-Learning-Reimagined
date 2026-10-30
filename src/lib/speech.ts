@@ -36,14 +36,14 @@ export function useSpeaker(lang: string) {
   }, [])
 
   const play = useCallback(
-    async (id: string, text: string) => {
+    async (id: string, text: string, rate?: number) => {
       if (playing === id) {
         if (canSpeak) window.speechSynthesis.cancel()
         setPlaying(null)
         return
       }
       setPlaying(id)
-      await speak(text, lang)
+      await speak(text, lang, rate)
       setPlaying((cur) => (cur === id ? null : cur))
     },
     [lang, playing],

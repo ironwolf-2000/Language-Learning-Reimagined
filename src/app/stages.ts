@@ -64,3 +64,13 @@ export function navSections(stage: Stage): Section[] {
 export function landingPath(stage: Stage): string {
   return isFull(stage) ? SECTIONS.listen.path : SECTIONS.pronunciation.path
 }
+
+/** Pronunciation grows with the learner: sounds first, word stress with words, melody with sentences. */
+export const PRONUNCIATION_TABS: { path: string; label: string; opensAt: Stage }[] = [
+  { path: '/pronunciation/sounds', label: 'Sounds & letters', opensAt: 1 },
+  { path: '/pronunciation/word-stress', label: 'Word stress', opensAt: 2 },
+  { path: '/pronunciation/sentence-stress', label: 'Sentence stress', opensAt: 4 },
+  { path: '/pronunciation/intonation', label: 'Intonation', opensAt: 4 },
+]
+
+export const pronunciationTabs = (stage: Stage) => PRONUNCIATION_TABS.filter((t) => stage >= t.opensAt)

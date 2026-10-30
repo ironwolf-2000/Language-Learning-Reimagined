@@ -1,19 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { pitchContour } from './pitch'
 import { peaks } from './waveform'
 
-export type Recording = { url: string; bars: number[]; seconds: number }
+export type Recording = {
+  url: string
+  bars: number[]
+  seconds: number
+  /** The melody of the recording on the 0–100 scale, when `contourPoints` was asked for and enough was voiced. */
+  contour: number[] | null
+}
 export type RecorderStatus = 'idle' | 'recording' | 'denied' | 'unsupported'
 
 const supported = typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia && typeof MediaRecorder !== 'undefined'
 
-async function toBars(blob: Blob, buckets: number): Promise<{ bars: number[]; seconds: number }> {
+async function analyse(blob: Blob, buckets: number, contourPoints: number) {
   try {
     const ctx = new AudioContext()
     const audio = await ctx.decodeAudioData(await blob.arrayBuffer())
     void ctx.close()
-    return { bars: peaks(audio.getChannelData(0), buckets), seconds: audio.duration }
+    const samples = audio.getChannelData(0)
+    return {
+      bars: peaks(samples, buckets),
+      seconds: audio.duration,
+      contour: contourPoints > 0 ? pitchContour(samples, audio.sampleRate, contourPoints) : null,
+    }
   } catch {
-    return { bars: new Array(buckets).fill(0), seconds: 0 }
+    return { bars: new Array<number>(buckets).fill(0), seconds: 0, contour: null }
   }
 }
 
@@ -21,7 +33,7 @@ async function toBars(blob: Blob, buckets: number): Promise<{ bars: number[]; se
  * Records the learner's own voice. Recordings stay in the browser for now:
  * nothing is uploaded until there is a backend.
  */
-export function useRecorder({ buckets = 48, maxSeconds = 10 } = {}) {
+export function useRecorder({ buckets = 48, maxSeconds = 10, contourPoints = 0 } = {}) {
   const [status, setStatus] = useState<RecorderStatus>(supported ? 'idle' : 'unsupported')
   const [recording, setRecording] = useState<Recording | null>(null)
   const recorder = useRef<MediaRecorder | null>(null)
@@ -42,10 +54,10 @@ export function useRecorder({ buckets = 48, maxSeconds = 10 } = {}) {
       rec.onstop = async () => {
         stream.getTracks().forEach((t) => t.stop())
         const blob = new Blob(chunks, { type: rec.mimeType })
-        const { bars, seconds } = await toBars(blob, buckets)
+        const analysed = await analyse(blob, buckets, contourPoints)
         setRecording((prev) => {
           if (prev) URL.revokeObjectURL(prev.url)
-          return { url: URL.createObjectURL(blob), bars, seconds }
+          return { url: URL.createObjectURL(blob), ...analysed }
         })
         setStatus('idle')
       }
@@ -56,7 +68,7 @@ export function useRecorder({ buckets = 48, maxSeconds = 10 } = {}) {
     } catch {
       setStatus('denied')
     }
-  }, [buckets, maxSeconds, stop])
+  }, [buckets, contourPoints, maxSeconds, stop])
 
   const clear = useCallback(() => {
     setRecording((prev) => {
