@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { StageProvider } from './app/StageContext'
+import { ThemeSync } from './app/ThemeSync'
 import { useAppState } from './app/store'
 import { useStage } from './app/useStage'
 import { isFull, isOpen, landingPath, PRONUNCIATION_TABS, type SectionKey } from './app/stages'
@@ -68,6 +69,7 @@ const pronunciation = (path: string, page: ReactNode) => (
 export default function App() {
   return (
     <StageProvider>
+      <ThemeSync />
       <BrowserRouter>
         <Routes>
           <Route index element={<Landing />} />

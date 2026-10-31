@@ -79,7 +79,11 @@ export function initialState(): State {
 function load(): State {
   try {
     const raw = localStorage.getItem(KEY)
-    if (raw) return { ...initialState(), ...(JSON.parse(raw) as Partial<State>) }
+    if (raw) {
+      const saved = JSON.parse(raw) as Partial<State>
+      const base = initialState()
+      return { ...base, ...saved, settings: { ...base.settings, ...saved.settings } }
+    }
   } catch {
     // Unavailable or corrupt storage: start fresh.
   }

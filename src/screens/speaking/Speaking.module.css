@@ -82,7 +82,7 @@
 }
 .tabs a[aria-current='page'] {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .tabCount {
@@ -90,7 +90,8 @@
   color: var(--muted);
 }
 .tabs a[aria-current='page'] .tabCount {
-  color: #b4b8c2;
+  color: inherit;
+  opacity: 0.7;
 }
 
 .split {
@@ -314,8 +315,8 @@
 .callNotes mark {
   padding: 0 4px;
   border-radius: 4px;
-  background: #fff4d6;
-  color: #7a5300;
+  background: var(--amber-soft);
+  color: var(--amber-ink);
 }
 
 /* Solo */
@@ -327,7 +328,7 @@
   padding: 30px 32px;
   border-radius: 24px;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .promptMain {
@@ -342,7 +343,7 @@
   margin: 0;
   font-size: 30px;
   line-height: 1.25;
-  color: #fff;
+  color: var(--on-inverse);
 }
 
 .promptTags {
@@ -353,8 +354,8 @@
 .promptTags span {
   padding: 4px 10px;
   border-radius: 999px;
-  background: #2e3138;
-  color: #fff;
+  background: var(--inverse-line);
+  color: var(--on-inverse);
   font-size: 12px;
   font-weight: 600;
 }
@@ -398,7 +399,7 @@
   border-radius: 50%;
   border: 0;
   background: var(--coral);
-  color: #fff;
+  color: var(--on-coral);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -435,7 +436,7 @@
 }
 .take[data-chosen] {
   border-color: var(--indigo);
-  background: #fbfbff;
+  background: var(--surface-2);
 }
 .take strong {
   font-size: 22px;
@@ -449,7 +450,7 @@
   border-radius: 50%;
   border: 0;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -20,8 +20,8 @@
   flex: 1 1 420px;
   padding: 28px;
   border-radius: 24px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -58,7 +58,7 @@
   font-size: 26px;
   font-weight: 700;
   line-height: 1.15;
-  color: #fff;
+  color: var(--on-inverse);
 }
 
 .wave {
@@ -91,9 +91,9 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid #4a4e57;
+  border: 1px solid var(--inverse-line-strong);
   background: transparent;
-  color: #fff;
+  color: var(--on-inverse);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +110,7 @@
   border-radius: 50%;
   border: 0;
   background: #fff;
-  color: var(--ink);
+  color: #16181d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +122,7 @@
   flex-direction: column;
   gap: 10px;
   padding-top: 18px;
-  border-top: 1px solid #2e3138;
+  border-top: 1px solid var(--inverse-line);
 }
 
 .subsLabel {
@@ -136,7 +136,7 @@
   gap: 4px;
   padding: 4px;
   border-radius: 999px;
-  background: #24272e;
+  background: var(--inverse-2);
 }
 .modes button {
   flex: 1;
@@ -150,7 +150,7 @@
 }
 .modes button[aria-checked='true'] {
   background: #fff;
-  color: var(--ink);
+  color: #16181d;
 }
 
 .subsHint {
@@ -241,7 +241,7 @@ button.hidden {
   cursor: pointer;
 }
 button.hidden i {
-  background: #c9c7f5;
+  background: var(--indigo-faint);
 }
 button.hidden span {
   font: 600 13px var(--font-ui);
@@ -264,13 +264,13 @@ button.hidden span {
 .transcriptFoot .shadow {
   background: var(--coral);
   border-color: var(--coral);
-  color: #fff;
+  color: var(--on-coral);
 }
 .transcriptFoot .shadow:hover,
 .transcriptFoot .shadow[aria-pressed='true'] {
-  color: #fff;
-  background: #c9461f;
-  border-color: #c9461f;
+  color: var(--on-coral);
+  background: var(--coral-hover);
+  border-color: var(--coral-hover);
 }
 
 .bottom {
@@ -299,7 +299,7 @@ button.hidden span {
 
 .newChip {
   background: var(--coral-soft);
-  color: #8f2e17;
+  color: var(--coral-ink);
 }
 .oldChip {
   color: var(--ink);

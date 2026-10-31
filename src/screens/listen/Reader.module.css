@@ -95,7 +95,7 @@
 
 .prose {
   line-height: 1.75;
-  color: #1f2228;
+  color: var(--ink-body);
 }
 .prose p {
   margin: 0 0 22px;
@@ -141,7 +141,7 @@
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 30px rgb(22 24 29 / 0.08);
+  box-shadow: 0 10px 30px var(--shadow-color);
   font-family: var(--font-ui);
   font-size: 15px;
 }

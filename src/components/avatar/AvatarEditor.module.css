@@ -112,7 +112,7 @@
 
 .swatch[aria-checked='true'],
 .tile[aria-checked='true'] > span:first-child {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--indigo);
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--indigo);
 }
 .tile[aria-checked='true'] {
   color: var(--indigo);

@@ -4,15 +4,15 @@
 
 .line {
   fill: none;
-  stroke: var(--indigo);
+  stroke: var(--chart-1);
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 
 .dot {
-  fill: var(--indigo);
-  stroke: #fff;
+  fill: var(--chart-1);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -28,7 +28,7 @@
   padding: 3px 8px;
   border-radius: 6px;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   font-size: 12px;
   white-space: nowrap;
   pointer-events: none;

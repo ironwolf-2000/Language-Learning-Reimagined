@@ -42,7 +42,7 @@
 }
 .speed button[aria-checked='true'] {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .practice {
@@ -103,7 +103,7 @@
   border: 0;
   border-radius: 50%;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,11 +118,11 @@
   padding: 0 24px;
   background: var(--coral);
   border-color: var(--coral);
-  color: #fff;
+  color: var(--on-coral);
 }
 .controls .along:hover {
-  color: #fff;
-  background: #c9461f;
+  color: var(--on-coral);
+  background: var(--coral-hover);
 }
 
 .alone {
@@ -179,14 +179,14 @@
 }
 .stepDone {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 .stepNow {
   background: var(--indigo);
-  color: #fff;
+  color: var(--on-indigo);
 }
 .stepTodo {
-  border: 1.5px solid #b9bdc7;
+  border: 1.5px solid var(--line-hover);
   color: var(--muted);
 }
 

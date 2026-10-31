@@ -93,7 +93,7 @@
 }
 .cont:hover {
   color: var(--ink);
-  border-color: #b9bdc7;
+  border-color: var(--line-hover);
 }
 
 .thumb {
@@ -213,8 +213,9 @@
 .coral {
   background: var(--coral);
 }
+/* Covers are artwork: the same in both themes. */
 .ink {
-  background: var(--ink);
+  background: #16181d;
 }
 
 @media (prefers-reduced-motion: reduce) {

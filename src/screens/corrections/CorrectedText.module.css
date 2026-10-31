@@ -1,6 +1,6 @@
 .text {
   line-height: 1.9;
-  color: #1f2228;
+  color: var(--ink-body);
   white-space: pre-line;
 }
 
@@ -13,7 +13,7 @@
 .ins {
   text-decoration: none;
   background: var(--teal-soft);
-  color: #0b5a4e;
+  color: var(--ins-ink);
   border-radius: 4px;
   padding: 0 3px;
 }

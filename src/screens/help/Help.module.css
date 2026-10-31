@@ -156,7 +156,7 @@
 }
 .card:hover {
   color: var(--ink);
-  border-color: #9fa3b0;
+  border-color: var(--faint);
 }
 
 .cardHead {
@@ -217,7 +217,7 @@
 }
 .some {
   font-weight: 600;
-  color: #7a5300;
+  color: var(--amber-ink);
 }
 
 .end {
@@ -362,7 +362,7 @@
 .source {
   font-size: 20px;
   line-height: 1.8;
-  color: #1f2228;
+  color: var(--ink-body);
   white-space: pre-line;
   cursor: text;
 }
@@ -395,7 +395,7 @@
   padding: 0 3px;
   border-radius: 4px;
   background: var(--teal-soft);
-  color: #0b5a4e;
+  color: var(--ins-ink);
 }
 
 .good {
@@ -415,7 +415,7 @@
   padding: 0 4px;
   border-radius: 999px;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   font: 700 10px var(--font-ui);
   vertical-align: 6px;
 }
@@ -448,7 +448,7 @@
   padding: 18px;
   border: 1.5px solid var(--indigo);
   border-radius: 14px;
-  background: #fbfbff;
+  background: var(--surface-2);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -478,7 +478,7 @@
   border: 1px solid var(--line-strong);
   border-radius: 10px;
   background: var(--teal-soft);
-  color: #0b5a4e;
+  color: var(--ins-ink);
   font-size: 19px;
 }
 
@@ -521,7 +521,7 @@
 .cats button[aria-checked='true'] {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .panelActions {
@@ -620,7 +620,7 @@
 }
 .recBtn[aria-pressed='true'] {
   background: var(--coral);
-  color: #fff;
+  color: var(--on-coral);
 }
 
 .sendRow {

@@ -50,7 +50,7 @@
 }
 .segmented button[aria-selected='true'] {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .search {
@@ -103,7 +103,7 @@
 }
 .row:hover {
   color: var(--ink);
-  background: #fafafb;
+  background: var(--surface-2);
 }
 
 .icon {
@@ -202,7 +202,7 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid var(--surface);
 }
 .dots i + i {
   margin-left: -10px;
@@ -266,8 +266,8 @@
   flex-wrap: wrap;
   padding: 18px 22px;
   border-radius: var(--radius-card);
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
 }
 
 .voicePlay {
@@ -277,7 +277,7 @@
   border: 0;
   border-radius: 50%;
   background: #fff;
-  color: var(--ink);
+  color: #16181d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,5 +452,5 @@
 }
 .visToggle button[aria-checked='true'] {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }

@@ -1,5 +1,9 @@
 /** The learner's settings. Defaults match the demo learner. */
+export type Theme = 'system' | 'light' | 'dark'
+
 export type Settings = {
+  /** "system" follows the operating system's light or dark setting. */
+  theme: Theme
   displayName: string
   whoCanOpen: 'anyone' | 'talked' | 'nobody'
   showGraphs: boolean
@@ -16,6 +20,7 @@ export type Settings = {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
+  theme: 'system',
   displayName: 'Sam R.',
   whoCanOpen: 'anyone',
   showGraphs: true,

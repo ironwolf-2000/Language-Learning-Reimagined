@@ -12,11 +12,14 @@ The platform doesn't rely on flashcards, streaks or an endless pile of material 
 npm install
 npm run dev     # http://localhost:5173
 npm test        # unit tests (Vitest)
+npm run test:e2e   # end-to-end tests (Playwright; starts its own dev server)
 npm run build   # type-check and production build
 npm run lint
 ```
 
-The app is a Vite + React + TypeScript project that is being built screen by screen. [ROADMAP.md](ROADMAP.md) has the plan and shows what's done. In development, a stage switcher in the bottom-right corner previews the platform at each stage of the ladder.
+The first time, install the browser Playwright uses: `npx playwright install chromium`.
+
+The app is a Vite + React + TypeScript project that is being built screen by screen. [ROADMAP.md](ROADMAP.md) has the plan and shows what's done. In development, a panel in the bottom-right corner previews the platform at each stage of the ladder, opens onboarding, and resets the demo. The app follows the system's light or dark setting, and Settings › Appearance can override it.
 
 ---
 

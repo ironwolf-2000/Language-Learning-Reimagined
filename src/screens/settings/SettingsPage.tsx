@@ -15,6 +15,7 @@ import styles from './Settings.module.css'
 
 const SECTIONS = [
   ['you', 'You'],
+  ['appearance', 'Appearance'],
   ['topics', 'Topics'],
   ['privacy', 'Privacy'],
   ['calls', 'Calls'],
@@ -63,6 +64,22 @@ export function SettingsPage() {
             </Row>
             <Row title="Languages" hint={`Learning ${learner.learning.name} since March 2025 · native ${learner.helpsWith}, which you help with`}>
               <button type="button" className="btn" disabled title="More languages are coming later">Add a language</button>
+            </Row>
+          </section>
+
+          <section id="appearance" className={`card ${styles.sec}`}>
+            <h2 className={styles.h2}>Appearance</h2>
+            <Row title="Theme" hint="System follows your device’s light or dark setting" first>
+              <PillGroup
+                label="Theme"
+                options={[
+                  { value: 'system', label: 'System' },
+                  { value: 'light', label: 'Light' },
+                  { value: 'dark', label: 'Dark' },
+                ]}
+                value={settings.theme}
+                onChange={(theme) => set({ theme })}
+              />
             </Row>
           </section>
 

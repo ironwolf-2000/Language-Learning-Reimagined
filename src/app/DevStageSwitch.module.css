@@ -8,8 +8,8 @@
   gap: 8px;
   padding: 6px 6px 6px 12px;
   border-radius: 999px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
   font-size: 12px;
   font-weight: 600;
   box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
@@ -21,7 +21,7 @@
   border-radius: 999px;
   padding: 0 10px;
   background: #2b2e36;
-  color: #fff;
+  color: var(--on-inverse);
   font-size: 12px;
 }
 
@@ -31,7 +31,7 @@
   border-radius: 999px;
   padding: 0 10px;
   background: #2b2e36;
-  color: #fff;
+  color: var(--on-inverse);
   font-size: 12px;
   cursor: pointer;
 }

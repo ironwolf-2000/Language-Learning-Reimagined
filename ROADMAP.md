@@ -11,7 +11,7 @@ The app is built **one slice at a time**. Each iteration ships a few complete sc
 | Build | Vite 8, TypeScript, React 19 |
 | Routing | React Router 7 (`react-router`) |
 | Styling | Plain CSS: global design tokens in `src/styles/global.css`, plus a CSS module per screen or component. No UI kit. |
-| Tests | Vitest for pure logic: stages, avatar traits, filtering, scoring |
+| Tests | Vitest for pure logic (stages, avatar traits, filtering, scoring), Playwright for the main flows end to end |
 | Lint | oxlint |
 | Data | Typed mock data in `src/data/` until there is a backend |
 | Audio | Browser APIs for now. Speech synthesis stands in for native-speaker clips, and `MediaRecorder` handles the learner's own recordings. |
@@ -236,6 +236,27 @@ Still mocked in this iteration:
 - Only Italian can be learned, and "Add a language" is disabled.
 - Points can't go below zero, but there's no way to buy them, which is by design for now.
 
+### ✅ Dark theme
+- [x] Every colour is a token in `src/styles/global.css`, with a light set and a dark set.
+  - **Inverse tokens:** panels that are dark in the light theme (listen-back, prompts, the podcast player) stay dark.
+  - **Inverting elements:** selected pills, play buttons and badges flip with the theme.
+  - **On-accent tokens:** text on filled accents gets its own tokens, so it keeps its contrast in both themes.
+- [x] **Chart colours:** validated with the dataviz palette checker in both themes. They're separate from the text accents, because the chart steps that pass in dark mode are too dim for small text.
+- [x] **Theme setting:** the app follows the system by default; Settings › Appearance offers System, Light or Dark. An inline script applies a saved choice before the first paint, so there's no flash.
+- [x] The call screen is always dark, so its colours are pinned rather than themed.
+
+### ✅ End-to-end tests
+- [x] Playwright (`npm run test:e2e`), 33 tests covering:
+  - stage gating;
+  - approving and starring corrections;
+  - writing (auto-check, studio, no spell check);
+  - correcting someone else's entry, end to end;
+  - calls with a fake microphone, booking, request limits, solo takes;
+  - the archive (endless scroll, search, compare, visibility) and other people's profiles;
+  - settings feeding other screens, the avatar builder, onboarding placement;
+  - the theme, including no flash on reload.
+- [x] Stable across 10 repeated runs. Assertions wait for re-renders instead of reading once.
+
 ### Later: beyond mock data
 - [ ] Backend and data model: users, entries stored unchanged, corrections linked to entries, points ledger, calls.
 - [ ] Authentication and privacy enforcement on the server.
@@ -243,7 +264,7 @@ Still mocked in this iteration:
 - [ ] Audio calls over WebRTC, with moderation and reporting.
 - [ ] Curated content pipeline: about 98% comprehension, 4–6 new items per session, new words recycled in later materials.
 - [ ] Tablet and phone layouts; the designs are desktop-only for now.
-- [ ] End-to-end tests (Playwright) for the main flows: sending an entry, approving, correcting someone else’s entry.
+- [ ] Run unit and end-to-end tests in CI, and add automated accessibility checks (axe) to the Playwright suite.
 
 ## Conventions
 

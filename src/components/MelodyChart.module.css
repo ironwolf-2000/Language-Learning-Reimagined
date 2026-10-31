@@ -16,14 +16,14 @@
 
 .speaker {
   fill: none;
-  stroke: var(--indigo);
+  stroke: var(--chart-1);
   stroke-width: 3.5;
   stroke-linecap: round;
 }
 
 .yours {
   fill: none;
-  stroke: var(--coral);
+  stroke: var(--chart-2);
   stroke-width: 2.5;
   stroke-dasharray: 6 6;
   stroke-linecap: round;
@@ -31,12 +31,12 @@
 
 .mark {
   fill: var(--ink);
-  stroke: #fff;
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
 .markText {
-  fill: #fff;
+  fill: var(--on-ink);
   font: 700 12px var(--font-ui);
 }
 
@@ -100,10 +100,10 @@
   width: 20px;
   height: 3px;
   border-radius: 2px;
-  background: var(--indigo);
+  background: var(--chart-1);
 }
 
 .keyYours {
   width: 20px;
-  border-top: 2.5px dashed var(--coral);
+  border-top: 2.5px dashed var(--chart-2);
 }

@@ -239,11 +239,12 @@ function NotesCard({ entry, correction }: { entry: Entry; correction: Correction
             <button
               type="button"
               className={styles.star}
+              style={{ color: 'var(--faint)' }}
               aria-pressed={isSaved}
               aria-label={isSaved ? 'Remove from saved notes' : 'Save this note to your profile'}
               onClick={() => actions.toggleSavedNote(entry.id, n.id)}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill={isSaved ? '#F2B441' : 'none'} stroke={isSaved ? '#B07A12' : '#9FA3B0'} strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill={isSaved ? '#F2B441' : 'none'} stroke={isSaved ? '#B07A12' : 'currentColor'} strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" />
               </svg>
             </button>

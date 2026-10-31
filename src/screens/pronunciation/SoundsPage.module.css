@@ -61,7 +61,7 @@
   border-radius: 3px;
 }
 .legend .newKey {
-  border: 1.5px solid #b9bdc7;
+  border: 1.5px solid var(--line-hover);
 }
 
 .gridCard {
@@ -98,18 +98,18 @@
   opacity: 0.8;
 }
 .tile[aria-pressed='true'] {
-  box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--coral);
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--coral);
 }
 
 .tile_familiar {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 .tile_practising {
   background: var(--indigo);
   border-color: var(--indigo);
-  color: #fff;
+  color: var(--on-indigo);
 }
 
 .detail {
@@ -178,8 +178,8 @@
 }
 
 .listenBack {
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
   border-radius: 20px;
   padding: 26px;
   display: flex;
@@ -247,11 +247,11 @@
 }
 .lbActions .ghost {
   background: transparent;
-  color: #fff;
-  border-color: #4a4e57;
+  color: var(--on-inverse);
+  border-color: var(--inverse-line-strong);
 }
 .lbActions .ghost:hover {
-  color: #fff;
+  color: var(--on-inverse);
   border-color: #8a8f99;
 }
 

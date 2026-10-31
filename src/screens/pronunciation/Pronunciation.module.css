@@ -175,8 +175,8 @@
 
 .darkCard {
   flex: 1 1 340px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
   border-radius: 20px;
   padding: 24px;
   display: flex;
@@ -196,7 +196,7 @@
   gap: 12px;
   padding: 12px 14px;
   border-radius: 14px;
-  background: #24272e;
+  background: var(--inverse-2);
 }
 .pair :global(.it) {
   flex: 1;
@@ -315,7 +315,7 @@
 }
 .recPill[aria-pressed='true'] {
   background: var(--coral);
-  color: #fff;
+  color: var(--on-coral);
 }
 
 .controlsNote {
@@ -398,7 +398,7 @@
   flex: none;
   border-radius: 50%;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   display: flex;
   align-items: center;
   justify-content: center;

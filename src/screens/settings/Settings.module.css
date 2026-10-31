@@ -132,7 +132,7 @@
   margin-top: 2px;
   border-radius: 50%;
   border: 1.5px solid var(--faint);
-  background: #fff;
+  background: var(--surface);
 }
 .radios button[aria-checked='true'] i {
   border: 5px solid var(--indigo);
@@ -229,7 +229,7 @@
 .topics > button[aria-pressed='true'] {
   background: var(--indigo);
   border-color: var(--indigo);
-  color: #fff;
+  color: var(--on-indigo);
 }
 
 .own {
@@ -238,7 +238,7 @@
   gap: 6px;
   min-height: 44px;
   padding: 0 6px 0 16px;
-  border: 1px dashed #b9bdc7;
+  border: 1px dashed var(--line-hover);
   border-radius: 999px;
   font-size: 14px;
   color: var(--muted);

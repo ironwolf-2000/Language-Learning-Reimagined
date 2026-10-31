@@ -6,8 +6,8 @@
 .gap {
   padding: 0 4px;
   border-radius: 4px;
-  background: #fff4d6;
-  color: #7a5300;
+  background: var(--amber-soft);
+  color: var(--amber-ink);
   font-family: var(--font-ui);
   font-size: 0.85em;
 }
@@ -131,7 +131,7 @@
   background: var(--teal-soft);
 }
 .mic[data-state='recording'] {
-  color: #fff;
+  color: var(--on-coral);
   border-color: var(--coral);
   background: var(--coral);
 }
@@ -194,7 +194,7 @@
   flex-wrap: wrap;
   padding: 12px 28px;
   border-top: 1px solid var(--line);
-  background: #fafafb;
+  background: var(--surface-2);
   font-size: 13px;
   color: var(--muted);
 }
@@ -229,7 +229,7 @@
 .modes button[aria-checked='true'] {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .submit {
@@ -374,7 +374,7 @@
   border-radius: 50%;
   border: 0;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -405,8 +405,8 @@
   align-items: flex-start;
   padding: 26px 28px;
   border-radius: 20px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--inverse);
+  color: var(--on-inverse);
 }
 
 .promptMain {
@@ -429,7 +429,7 @@
 .promptTags span {
   padding: 4px 10px;
   border-radius: 999px;
-  background: #2e3138;
+  background: var(--inverse-line);
   font-size: 12px;
   font-weight: 600;
 }
@@ -446,7 +446,7 @@
   gap: 10px;
   padding: 16px 18px;
   border-radius: 14px;
-  background: #24272e;
+  background: var(--inverse-2);
 }
 
 .targetsTitle {
@@ -524,7 +524,7 @@
   resize: vertical;
   font-size: 21px;
   line-height: 1.75;
-  color: #1f2228;
+  color: var(--ink-body);
 }
 .textarea:focus {
   outline: none;
@@ -569,7 +569,7 @@
   height: 20px;
   margin-top: 1px;
   border-radius: 50%;
-  border: 1.5px solid #b9bdc7;
+  border: 1.5px solid var(--line-hover);
 }
 .choice[aria-checked='true'] .radio {
   border: 6px solid var(--indigo);

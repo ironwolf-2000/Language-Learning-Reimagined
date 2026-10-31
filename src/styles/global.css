@@ -1,25 +1,57 @@
 :root {
+  color-scheme: light;
+
   --bg: #f5f6f8;
   --surface: #fff;
+  /* Slightly tinted surface for footers and selected cards */
+  --surface-2: #fafafb;
   --ink: #16181d;
   --ink-2: #3b404a;
+  /* Long-form reading text */
+  --ink-body: #1f2228;
   --muted: #5b616e;
   --faint: #9fa3b0;
   --line: #e4e6eb;
   --line-soft: #eef0f3;
   --line-strong: #d5d8df;
+  --line-hover: #b9bdc7;
   --fill: #f0f1f4;
+  --fill-2: #e9ebef;
+  --switch-off: #c9ccd4;
+  /* Text and icons drawn on an ink-filled shape (selected pills, play buttons) */
+  --on-ink: #fff;
 
   --indigo: #3d3bd4;
   --indigo-hover: #2f2db8;
   --indigo-ink: #2b29a8;
   --indigo-soft: #eeedfe;
+  --indigo-faint: #c9c7f5;
+  --on-indigo: #fff;
   --coral: #e2552b;
+  --coral-hover: #c9461f;
   --coral-ink: #b23a1e;
   --coral-soft: #ffede6;
+  --on-coral: #fff;
   --teal: #0f7b6c;
   --teal-ink: #0b6b5d;
   --teal-soft: #e1f3ef;
+  /* Inserted text in corrections */
+  --ins-ink: #0b5a4e;
+  --amber-soft: #fff4d6;
+  --amber-ink: #7a5300;
+
+  /* Panels that stay dark in both themes (listen-back, prompts, the podcast player) */
+  --inverse: #16181d;
+  --inverse-2: #24272e;
+  --inverse-line: #2e3138;
+  --inverse-line-strong: #4a4e57;
+  --on-inverse: #fff;
+
+  --shadow-color: rgb(22 24 29 / 0.08);
+
+  /* Chart series (speaker vs you, main vs high). Validated with the dataviz palette checker for each theme. */
+  --chart-1: #3d3bd4;
+  --chart-2: #e2552b;
 
   --font-ui: Inter, system-ui, sans-serif;
   --font-display: 'Bricolage Grotesque', Inter, sans-serif;
@@ -32,6 +64,101 @@
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Dark theme. Follows the system unless the learner picked a theme in Settings,
+ * which sets data-theme on <html>. Accent colours are lightened for contrast on
+ * dark surfaces, and text on filled accents turns dark.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0e1014;
+    --surface: #171a1f;
+    --surface-2: #1c1f25;
+    --ink: #eceef2;
+    --ink-2: #c7cbd3;
+    --ink-body: #dfe2e7;
+    --muted: #9aa0ab;
+    --faint: #6c727d;
+    --line: #2a2e36;
+    --line-soft: #22252c;
+    --line-strong: #3a3f48;
+    --line-hover: #4d535e;
+    --fill: #23262d;
+    --fill-2: #2c3038;
+    --switch-off: #4d535e;
+    --on-ink: #0e1014;
+    --indigo: #8583ff;
+    --indigo-hover: #9d9bff;
+    --indigo-ink: #b8b6ff;
+    --indigo-soft: #24234a;
+    --indigo-faint: #3a3870;
+    --on-indigo: #0e1014;
+    --coral: #ff7a52;
+    --coral-hover: #ff9370;
+    --coral-ink: #ff9b7d;
+    --coral-soft: #3a2019;
+    --on-coral: #1a0c07;
+    --teal: #3cc2ab;
+    --teal-ink: #6fd9c4;
+    --teal-soft: #12302b;
+    --ins-ink: #9fe8d8;
+    --amber-soft: #3a2e10;
+    --amber-ink: #f2cf7a;
+    --inverse: #23262d;
+    --inverse-2: #2e323a;
+    --inverse-line: #3b404a;
+    --inverse-line-strong: #555b66;
+    --shadow-color: rgb(0 0 0 / 0.45);
+    --chart-1: #706ef2;
+    --chart-2: #e9633a;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e1014;
+  --surface: #171a1f;
+  --surface-2: #1c1f25;
+  --ink: #eceef2;
+  --ink-2: #c7cbd3;
+  --ink-body: #dfe2e7;
+  --muted: #9aa0ab;
+  --faint: #6c727d;
+  --line: #2a2e36;
+  --line-soft: #22252c;
+  --line-strong: #3a3f48;
+  --line-hover: #4d535e;
+  --fill: #23262d;
+  --fill-2: #2c3038;
+  --switch-off: #4d535e;
+  --on-ink: #0e1014;
+  --indigo: #8583ff;
+  --indigo-hover: #9d9bff;
+  --indigo-ink: #b8b6ff;
+  --indigo-soft: #24234a;
+  --indigo-faint: #3a3870;
+  --on-indigo: #0e1014;
+  --coral: #ff7a52;
+  --coral-hover: #ff9370;
+  --coral-ink: #ff9b7d;
+  --coral-soft: #3a2019;
+  --on-coral: #1a0c07;
+  --teal: #3cc2ab;
+  --teal-ink: #6fd9c4;
+  --teal-soft: #12302b;
+  --ins-ink: #9fe8d8;
+  --amber-soft: #3a2e10;
+  --amber-ink: #f2cf7a;
+  --inverse: #23262d;
+  --inverse-2: #2e323a;
+  --inverse-line: #3b404a;
+  --inverse-line-strong: #555b66;
+  --shadow-color: rgb(0 0 0 / 0.45);
+  --chart-1: #706ef2;
+  --chart-2: #e9633a;
 }
 
 *,
@@ -128,7 +255,7 @@ textarea {
 }
 .btn:hover {
   color: var(--ink);
-  border-color: #b9bdc7;
+  border-color: var(--line-hover);
 }
 .btn:disabled {
   cursor: default;
@@ -137,10 +264,10 @@ textarea {
 .btn-primary {
   background: var(--indigo);
   border-color: var(--indigo);
-  color: #fff;
+  color: var(--on-indigo);
 }
 .btn-primary:hover {
-  color: #fff;
+  color: var(--on-indigo);
   background: var(--indigo-hover);
   border-color: var(--indigo-hover);
 }
