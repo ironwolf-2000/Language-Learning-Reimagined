@@ -22,6 +22,10 @@ function FullOverview() {
   const entries = allEntries(created)
   const recordings = entries.filter((e) => e.kind === 'recording').length
   const publicCount = entries.filter((e) => visibilityOf(e, { visibility }) === 'public').length
+  const settings = useAppState((s) => s.settings)
+  const who = settings.whoCanOpen === 'talked' ? 'People you’ve talked to or corrected' : 'Others'
+  const what = [settings.showGraphs && 'your progress graphs', `${publicCount} public entries`].filter(Boolean).join(' and ')
+  const privacyLine = settings.whoCanOpen === 'nobody' ? 'Nobody can open your profile' : `${who} can see ${what}`
 
   return (
     <div className={styles.page}>
@@ -31,7 +35,7 @@ function FullOverview() {
           {recordings} recordings
         </span>
         <span className={styles.metaSmall}>
-          Others can see your progress graphs and {publicCount} public entries · <Link to="/settings">Privacy</Link>
+          {privacyLine} · <Link to="/settings#privacy">Privacy</Link>
         </span>
       </ProfileHeader>
 

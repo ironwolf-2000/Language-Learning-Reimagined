@@ -9,6 +9,7 @@ import {
   traitsFromSeed,
   type AvatarTraits,
 } from './traits'
+import { CROPS, type Crop } from './options'
 
 type Props = {
   /** Generates a face when the person hasn't drawn one. */
@@ -17,9 +18,11 @@ type Props = {
   size?: number
   /** Accessible name. Leave empty when a visible name sits right next to it. */
   label?: string
+  /** Zoom in on part of the face, for picker tiles. */
+  crop?: Crop
 }
 
-export function Avatar({ seed = 0, traits, size = 40, label = '' }: Props) {
+export function Avatar({ seed = 0, traits, size = 40, label = '', crop = 'full' }: Props) {
   const t = traits ?? traitsFromSeed(seed)
   const hair = HAIR_STYLES[t.hair]
   const hc = HAIR_COLORS[t.hairColor]
@@ -42,7 +45,7 @@ export function Avatar({ seed = 0, traits, size = 40, label = '' }: Props) {
       }}
     >
       <svg
-        viewBox="0 0 40 40"
+        viewBox={CROPS[crop]}
         width="100%"
         height="100%"
         stroke="#16181D"

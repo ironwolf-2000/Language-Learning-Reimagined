@@ -202,10 +202,39 @@ Still mocked in this iteration:
 - Rolling averages, vocabulary counts, the words you lean on, recurring mistakes and topic shares are fixed demo data. They'll be computed from activity once there's a backend.
 - The archive loads by month, which is enough for the demo. Proper windowing (only rendering visible cards) should come when real archives hold hundreds of entries.
 
-### Iteration 7: Settings and onboarding
-- [ ] Settings: You, Privacy, Calls (rate, availability grid, weekly cap), Email, Points ledger.
-- [ ] Avatar builder.
-- [ ] Onboarding: goals and topics, then placement without a test (graded texts with word taps, then listening).
+### ✅ Iteration 7: Settings and onboarding
+- [x] **Settings:**
+  - **You:** avatar, the name others see, languages.
+  - **Topics:** they decide the shelves in Read & listen, and "Edit your topics" lands here.
+  - **Privacy:**
+    - who can open your profile;
+    - graphs and helper stats;
+    - private recordings by default;
+    - the default visibility for new entries, which writing and solo recordings now use.
+  - **Calls:** taking requests, your rate, a free-times grid and a weekly cap. These now drive Speaking › Booked and the rate you earn.
+  - **Email:** the complete list is the call reminder plus account messages.
+  - **Points:** a live history of what you spent and of corrections waiting for approval.
+- [x] **Avatar builder:**
+  - mouth, glasses and beard are separate rows, and each tile changes one thing and zooms in on it;
+  - a test makes sure a row can never show two identical faces (the design canvas had this bug);
+  - shuffle;
+  - the saved face appears in the sidebar, the profile and calls.
+- [x] **Onboarding** (`/welcome`), four steps:
+  1. the language you're learning and your native languages, which are the ones you help with;
+  2. goals and topics;
+  3. placement without a test: up to 5 graded texts, tap unknown words, say how each felt, optionally listen to the same text, stop whenever you like, or choose "completely new";
+  4. draw your avatar.
+
+  Finishing sets the starting stage from `placeStage` and opens the app there. Learners never see a level. The dev panel has an "Onboarding" button to preview it.
+- [x] All routes are real screens now, so the placeholder is gone.
+- [x] Checked end to end in headless Chrome:
+  - settings feeding Booked and the library;
+  - distinct avatar rows, and saving updating the sidebar;
+  - onboarding placing a confident reader at stage 4 and a complete beginner at stage 1.
+
+Still mocked in this iteration:
+- Only Italian can be learned, and "Add a language" is disabled.
+- Points can't go below zero, but there's no way to buy them, which is by design for now.
 
 ### Later: beyond mock data
 - [ ] Backend and data model: users, entries stored unchanged, corrections linked to entries, points ledger, calls.

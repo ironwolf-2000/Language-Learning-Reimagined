@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { actions, useAppState } from '../../app/store'
+import { actions, getState, useAppState } from '../../app/store'
 import type { Entry } from '../../data/entries'
 import { STUDIO_PROMPT } from '../../data/writing'
 import { costHint, entryCost } from '../../lib/points'
@@ -49,7 +49,7 @@ export function StudioPage() {
       kind: 'written',
       original: text.trim(),
       createdAt: new Date().toISOString(),
-      visibility: mode === 'private' ? 'private' : 'public',
+      visibility: mode === 'private' ? 'private' : getState().settings.newEntries,
       sentForCorrection: mode === 'correct',
       corrections: [],
     }

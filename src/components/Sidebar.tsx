@@ -1,9 +1,9 @@
+import { MyAvatar } from './avatar/MyAvatar'
 import { NavLink } from 'react-router'
 import { useStage } from '../app/useStage'
 import { navSections } from '../app/stages'
 import { toReviewCount, useAppState } from '../app/store'
 import { learner } from '../data/learner'
-import { Avatar } from './avatar/Avatar'
 import { Icon } from './Icon'
 import styles from './Sidebar.module.css'
 
@@ -44,7 +44,7 @@ export function Sidebar() {
       </nav>
 
       <div className={styles.user}>
-        <Avatar seed={learner.avatarSeed} size={36} />
+        <MyAvatar size={36} />
         <span className={styles.userText}>
           <span className={styles.userName}>{learner.name}</span>
           <span className={styles.userMeta}>Helps with {learner.helpsWith}</span>

@@ -166,9 +166,6 @@ export const DEMO_INCOMING: Incoming[] = [
 
 export const DEMO_OUTGOING: Outgoing[] = []
 
-/** The learner's own offer for booked calls, as a helper with English. */
-export const MY_BOOKING_SETTINGS = { taking: true, rate: 25, freeText: 'Tue & Thu evenings, Sat mornings', free: ['tue-19', 'tue-20', 'thu-19', 'thu-20', 'sat-10', 'sat-11'], perWeek: 3 }
-
 /* ---------- Solo recordings ---------- */
 
 export const SOLO_PROMPTS = [

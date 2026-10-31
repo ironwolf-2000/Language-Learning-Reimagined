@@ -5,7 +5,7 @@ import { Avatar } from '../../components/avatar/Avatar'
 import { PillGroup } from '../../components/PillGroup'
 import { learner } from '../../data/learner'
 import { PEOPLE } from '../../data/people'
-import { ENGLISH_SETS, MY_BOOKING_SETTINGS, TOPICS, TUTORS, type Role, type Topic } from '../../data/speaking'
+import { ENGLISH_SETS, TOPICS, TUTORS, type Role, type Topic } from '../../data/speaking'
 import { LENGTHS, type CallLength } from '../../lib/calls'
 import { formatDate } from '../corrections/entryMeta'
 import { SpeakingHeader } from './SpeakingHeader'
@@ -24,6 +24,7 @@ export function CallsPage() {
   const ended = (useLocation().state as { ended?: { with: string; minutes: number; reported?: boolean } } | null)?.ended
   const calls = useAppState((s) => s.calls)
   const outgoing = useAppState((s) => s.outgoing)
+  const rate = useAppState((s) => s.settings.rate)
   const [role, setRole] = useState<Role>('learn')
   const [len, setLen] = useState<CallLength>('15')
   const [topic, setTopic] = useState<Topic>('work')
@@ -131,7 +132,7 @@ export function CallsPage() {
           </div>
           {role === 'help' && (
             <span className={styles.muted}>
-              Your rate for booked calls: <strong>{MY_BOOKING_SETTINGS.rate} points / hour</strong> · <Link to="/settings">Change</Link>
+              Your rate for booked calls: <strong>{rate} points / hour</strong> · <Link to="/settings">Change</Link>
             </span>
           )}
         </div>

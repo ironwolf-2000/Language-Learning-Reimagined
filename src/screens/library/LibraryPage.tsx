@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { useAppState } from '../../app/store'
 import { Icon } from '../../components/Icon'
 import { PillGroup } from '../../components/PillGroup'
 import {
@@ -30,7 +31,11 @@ const COVERS = ['indigo', 'teal', 'amber', 'plum', 'coral', 'ink'] as const
 export function LibraryPage() {
   const [query, setQuery] = useState('')
   const [kind, setKind] = useState<MaterialKind | 'all'>('all')
-  const [topic, setTopic] = useState<TopicKey>('tech')
+  // Shelves for the topics the learner picked, plus "Something new" to widen their range.
+  const chosen = useAppState((s) => s.topics)
+  const shelves = TOPICS.filter((t) => t.key === 'new' || chosen.includes(t.key))
+  const [picked, setTopic] = useState<TopicKey>('tech')
+  const topic = shelves.some((t) => t.key === picked) ? picked : shelves[0].key
   const searching = query.trim().length > 0
 
   const results = filterMaterials(ALL_MATERIALS, { query, kind })
@@ -97,12 +102,12 @@ export function LibraryPage() {
           <section className={styles.section}>
             <div className={styles.browseHead}>
               <h2 className="section-title">Browse by topic</h2>
-              <Link to="/settings">Edit your topics</Link>
+              <Link to="/settings#topics">Edit your topics</Link>
             </div>
             <PillGroup
               label="Topic"
               tone="soft"
-              options={TOPICS.map((t) => ({ value: t.key, label: t.label }))}
+              options={shelves.map((t) => ({ value: t.key, label: t.label }))}
               value={topic}
               onChange={setTopic}
             />

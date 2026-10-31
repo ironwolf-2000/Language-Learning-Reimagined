@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { actions, useAppState } from '../../app/store'
+import { actions, getState, useAppState } from '../../app/store'
 import type { Entry } from '../../data/entries'
 import { learner } from '../../data/learner'
 import { SOLO_PROMPTS } from '../../data/speaking'
@@ -80,7 +80,7 @@ export function SoloPage() {
       seconds: Math.round(take.seconds),
       original: take.transcript || '(No automatic transcript. Your corrector will write down what you said.)',
       createdAt: new Date().toISOString(),
-      visibility: dest === 'keep' ? 'private' : 'public',
+      visibility: dest === 'keep' || getState().settings.recordingsPrivate ? 'private' : getState().settings.newEntries,
       sentForCorrection: dest === 'correct',
       corrections: [],
     }

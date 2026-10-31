@@ -26,6 +26,9 @@ export function DevStageSwitch() {
           </option>
         ))}
       </select>
+      <button type="button" onClick={() => navigate('/welcome')}>
+        Onboarding
+      </button>
       <button type="button" onClick={() => actions.reset()} title="Clears sent entries, approvals, starred notes and drafts">
         Reset demo
       </button>

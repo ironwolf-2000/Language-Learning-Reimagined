@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { StageProvider } from './app/StageContext'
+import { useAppState } from './app/store'
 import { useStage } from './app/useStage'
 import { isFull, isOpen, landingPath, PRONUNCIATION_TABS, type SectionKey } from './app/stages'
 import { AppShell } from './components/AppShell'
-import { ComingSoon } from './screens/ComingSoon'
 import { CorrectionsListPage } from './screens/corrections/CorrectionsListPage'
 import { EntryPage } from './screens/corrections/EntryPage'
 import { HelpEntryPage } from './screens/help/HelpEntryPage'
@@ -26,6 +26,9 @@ import { ArchivePage } from './screens/profile/ArchivePage'
 import { ComparePage } from './screens/profile/ComparePage'
 import { OverviewPage } from './screens/profile/OverviewPage'
 import { PersonPage } from './screens/profile/PersonPage'
+import { OnboardingPage } from './screens/onboarding/OnboardingPage'
+import { AvatarPage } from './screens/settings/AvatarPage'
+import { SettingsPage } from './screens/settings/SettingsPage'
 import { PhrasesPage } from './screens/writing/PhrasesPage'
 import { StudioPage } from './screens/writing/StudioPage'
 
@@ -42,7 +45,8 @@ function Gate({ section, path, children }: { section: SectionKey; path?: string;
 
 function Landing() {
   const { stage } = useStage()
-  return <Navigate to={landingPath(stage)} replace />
+  const onboarded = useAppState((s) => s.onboarded)
+  return <Navigate to={onboarded ? landingPath(stage) : '/welcome'} replace />
 }
 
 /** Beginners write short phrases; the studio for full entries opens at the sentence stage. */
@@ -93,8 +97,10 @@ export default function App() {
             <Route path="profile/entries/:id" element={<Gate section="profile"><EntryPage from="archive" /></Gate>} />
             {/* Other people's profiles are viewable at every stage. */}
             <Route path="people/:id" element={<PersonPage />} />
-            <Route path="settings/*" element={<ComingSoon title="Settings" iteration={7} />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="settings/avatar" element={<AvatarPage />} />
           </Route>
+          <Route path="welcome" element={<OnboardingPage />} />
           {/* A call takes the whole screen: no sidebar, nothing else competing for attention. */}
           <Route path="speaking/call" element={<Gate section="speaking"><CallPage /></Gate>} />
           <Route path="*" element={<Landing />} />

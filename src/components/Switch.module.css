@@ -1,0 +1,37 @@
+.track {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #c9ccd4;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.track[aria-checked='true'] {
+  background: var(--indigo);
+}
+
+.knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+  transition: left 0.15s;
+}
+.track[aria-checked='true'] .knob {
+  left: 23px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .knob {
+    transition: none;
+  }
+}

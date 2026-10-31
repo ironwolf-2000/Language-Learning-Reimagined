@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { actions, allEntries, selectEntries, statusOf, useAppState } from '../../app/store'
+import { actions, getState, allEntries, selectEntries, statusOf, useAppState } from '../../app/store'
 import { useStage } from '../../app/useStage'
 import { isOpen } from '../../app/stages'
 import { Avatar } from '../../components/avatar/Avatar'
@@ -129,7 +129,7 @@ function PhraseEditor({ situation, natives }: { situation: Situation; natives: b
       kind: 'phrases',
       original: filled.join('\n'),
       createdAt: new Date().toISOString(),
-      visibility: mode === 'private' ? 'private' : 'public',
+      visibility: mode === 'private' ? 'private' : getState().settings.newEntries,
       sentForCorrection: mode === 'correct',
       corrections: [],
     }

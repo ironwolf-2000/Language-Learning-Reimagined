@@ -95,6 +95,18 @@ describe('store', () => {
     expect(visibilityOf(entry('torino'), getState())).toBe('public')
   })
 
+  it('accepted requests use your current rate', () => {
+    actions.updateSettings({ rate: 40 })
+    actions.acceptCallRequest('i2', 'sat-9')
+    expect(getState().upcoming.at(-1)?.rate).toBe(40)
+  })
+
+  it('finishing onboarding saves the setup and the avatar', () => {
+    const avatar = { skin: 1, hair: 2, hairColor: 3, background: 0, top: 1, beard: false, glasses: true, mouth: 1 }
+    actions.completeOnboarding({ goals: ['travel'], topics: ['food'], ownTopics: ['urban planning'], avatar })
+    expect(getState()).toMatchObject({ onboarded: true, goals: ['travel'], topics: ['food'], ownTopics: ['urban planning'], avatar })
+  })
+
   it('reset brings back the demo state', () => {
     actions.createEntry(newEntry(true), 5)
     actions.reset()

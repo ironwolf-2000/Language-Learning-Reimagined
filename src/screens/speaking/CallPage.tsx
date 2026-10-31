@@ -1,3 +1,4 @@
+import { MyAvatar } from '../../components/avatar/MyAvatar'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { actions } from '../../app/store'
@@ -158,7 +159,7 @@ function Connected({ partner, role, len, questions, setTitle }: { partner: Partn
               </span>
             </div>
             <div className={styles.you}>
-              <Avatar seed={learner.avatarSeed} size={36} />
+              <MyAvatar size={36} />
               <span className={styles.meter} aria-label={mic.muted ? 'Muted' : 'Your microphone level'}>
                 {bars.map((c, i) => (
                   <i key={i} style={{ height: [6, 11, 8, 14][i], background: c }} />

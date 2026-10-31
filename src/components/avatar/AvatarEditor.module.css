@@ -1,0 +1,120 @@
+.editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.preview {
+  flex: 1 1 320px;
+  max-width: 380px;
+  position: sticky;
+  top: 24px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.where {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
+}
+.where > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.where > span > span {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+.where small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.options {
+  flex: 2 1 520px;
+  min-width: 0;
+  padding: 8px 28px 12px;
+}
+
+.opt {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.options > .opt:first-child {
+  border-top: 0;
+}
+
+.faceRows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 40px;
+  border-top: 1px solid var(--line-soft);
+}
+.faceRows .opt {
+  border-top: 0;
+}
+
+.lbl {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.swatch {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.tile > span:first-child {
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.swatch[aria-checked='true'],
+.tile[aria-checked='true'] > span:first-child {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--indigo);
+}
+.tile[aria-checked='true'] {
+  color: var(--indigo);
+  font-weight: 600;
+}

@@ -1,11 +1,12 @@
 import { useSyncExternalStore } from 'react'
+import type { AvatarTraits } from '../components/avatar/traits'
 import { DEMO_ENTRIES, type Entry } from '../data/entries'
+import { DEFAULT_SETTINGS, type Settings } from '../data/settings'
 import {
   DEMO_CALLS,
   DEMO_INCOMING,
   DEMO_OUTGOING,
   DEMO_UPCOMING,
-  MY_BOOKING_SETTINGS,
   type CallRecord,
   type Incoming,
   type Outgoing,
@@ -37,6 +38,13 @@ export type State = {
   outgoing: Outgoing[]
   /** Entries whose visibility the learner changed. */
   visibility: Record<string, 'public' | 'private'>
+  settings: Settings
+  /** The face the learner drew; null until they do (a generated one is used meanwhile). */
+  avatar: AvatarTraits | null
+  onboarded: boolean
+  goals: string[]
+  topics: string[]
+  ownTopics: string[]
 }
 
 export type HelpSent = { author: string; changes: number; voice: boolean; reward: number; sentAt: string }
@@ -58,6 +66,13 @@ export function initialState(): State {
     incoming: DEMO_INCOMING,
     outgoing: DEMO_OUTGOING,
     visibility: {},
+    settings: DEFAULT_SETTINGS,
+    avatar: null,
+    // The demo learner has been here since March 2025; onboarding can still be previewed.
+    onboarded: true,
+    goals: ['career', 'books'],
+    topics: ['tech', 'design', 'cinema', 'food'],
+    ownTopics: [],
   }
 }
 
@@ -119,7 +134,7 @@ export const actions = {
     set((s) => {
       const r = s.incoming.find((x) => x.id === id)
       if (!r) return s
-      const call: Upcoming = { id: `u-${id}`, with: r.from, seed: r.seed, slot, length: r.length, topic: r.set, youre: 'helping', rate: MY_BOOKING_SETTINGS.rate }
+      const call: Upcoming = { id: `u-${id}`, with: r.from, seed: r.seed, slot, length: r.length, topic: r.set, youre: 'helping', rate: s.settings.rate }
       return { ...s, incoming: s.incoming.filter((x) => x.id !== id), upcoming: [...s.upcoming, call] }
     }),
   declineCallRequest: (id: string) => set((s) => ({ ...s, incoming: s.incoming.filter((x) => x.id !== id) })),
@@ -127,6 +142,11 @@ export const actions = {
     set((s) => ({ ...s, incoming: s.incoming.map((x) => (x.id === id ? { ...x, countered: slot } : x)) })),
   setVisibility: (entryId: string, value: 'public' | 'private') =>
     set((s) => ({ ...s, visibility: { ...s.visibility, [entryId]: value } })),
+  updateSettings: (change: Partial<Settings>) => set((s) => ({ ...s, settings: { ...s.settings, ...change } })),
+  setAvatar: (traits: AvatarTraits) => set((s) => ({ ...s, avatar: traits })),
+  setTopics: (topics: string[], ownTopics: string[]) => set((s) => ({ ...s, topics, ownTopics })),
+  completeOnboarding: (setup: { goals: string[]; topics: string[]; ownTopics: string[]; avatar: AvatarTraits }) =>
+    set((s) => ({ ...s, ...setup, onboarded: true })),
   reset: () => set(() => initialState()),
 }
 
