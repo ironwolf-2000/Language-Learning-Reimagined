@@ -10,6 +10,7 @@ import { useSpeaker } from '../../lib/speech'
 import { useRecorder } from '../../lib/useRecorder'
 import { PronunciationHeader } from './PronunciationHeader'
 import styles from './Pronunciation.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
 
 const LANG = learner.learning.bcp47
 const REGIONS: { value: Region | 'any'; label: string }[] = [
@@ -21,7 +22,7 @@ const REGIONS: { value: Region | 'any'; label: string }[] = [
 
 export function IntonationPage() {
   const speaker = useSpeaker(LANG)
-  const recorder = useRecorder({ maxSeconds: 8, contourPoints: STORY_TUNE.syllables.length })
+  const recorder = useRecorder({ contourPoints: STORY_TUNE.syllables.length })
   const [humming, setHumming] = useState<string | null>(null)
   const [region, setRegion] = useState<Region | 'any'>('any')
   const recording = recorder.status === 'recording'
@@ -78,9 +79,13 @@ export function IntonationPage() {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 {recording ? <rect x="5" y="5" width="14" height="14" rx="2" /> : <circle cx="12" cy="12" r="7" />}
               </svg>
-              {recording ? 'Stop' : yours ? 'Try again' : 'Say it yourself'}
+              {recording ? 'Stop recording' : yours ? 'Try again' : 'Say it yourself'}
             </button>
-            <span className={styles.controlsNote}>“Hum the melody” plays the tune without the words</span>
+            {recording ? (
+              <RecordingTimer elapsed={recorder.elapsed} />
+            ) : (
+              <span className={styles.controlsNote}>“Hum the melody” plays the tune without the words</span>
+            )}
           </div>
 
           <div className={styles.feedback}>

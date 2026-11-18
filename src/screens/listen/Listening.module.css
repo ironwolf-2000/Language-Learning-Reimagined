@@ -1,9 +1,3 @@
-.crumb {
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
 .muted {
   font-size: 13px;
   color: var(--muted);
@@ -250,6 +244,7 @@ button.hidden span {
 
 .transcriptFoot {
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
   margin-top: auto;

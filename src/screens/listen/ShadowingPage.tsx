@@ -6,6 +6,7 @@ import { compareMelody } from '../../lib/melody'
 import { canSpeak, speak } from '../../lib/speech'
 import { useRecorder } from '../../lib/useRecorder'
 import styles from './Shadowing.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
 
 const LANG = learner.learning.bcp47
 type Counts = { listened: number; along: number; alone: number }
@@ -102,7 +103,7 @@ function LinePractice({
   const [playing, setPlaying] = useState<'listen' | 'along' | null>(null)
   const [looping, setLooping] = useState(false)
   const loopRef = useRef(false)
-  const recorder = useRecorder({ maxSeconds: 8, contourPoints: line.syllables.length })
+  const recorder = useRecorder({ contourPoints: line.syllables.length })
   const recording = recorder.status === 'recording'
   const yours = recorder.recording?.contour ?? null
   const feedback = yours ? compareMelody(line.syllables.map((s) => s.p), yours) : null
@@ -182,8 +183,9 @@ function LinePractice({
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             {recording ? <rect x="5" y="5" width="14" height="14" rx="2" /> : <circle cx="12" cy="12" r="6" />}
           </svg>
-          {recording ? 'Stop' : yours ? 'Say it alone again' : 'Say it alone'}
+          {recording ? 'Stop recording' : yours ? 'Say it alone again' : 'Say it alone'}
         </button>
+        {recording && <RecordingTimer elapsed={recorder.elapsed} />}
         <button type="button" className="btn" aria-pressed={looping} onClick={toggleLoop}>
           {looping ? 'Stop looping' : 'Loop'}
         </button>

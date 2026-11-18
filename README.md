@@ -19,7 +19,7 @@ npm run lint
 
 The first time, install the browser Playwright uses: `npx playwright install chromium`.
 
-The app is a Vite + React + TypeScript project that is being built screen by screen. [ROADMAP.md](ROADMAP.md) has the plan and shows what's done. In development, a panel in the bottom-right corner previews the platform at each stage of the ladder, opens onboarding, and resets the demo. The app follows the system's light or dark setting, and Settings › Appearance can override it.
+The app is a Vite + React + TypeScript project that is being built screen by screen. [ROADMAP.md](ROADMAP.md) has the plan and shows what's done. A prototype panel in the bottom-right corner (also on the deployed site) previews the platform at each stage of the ladder, opens onboarding, and resets the demo. The app follows the system's light or dark setting, and Settings › Appearance can override it.
 
 ---
 

@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
+import { BackLink } from '../../components/BackLink'
+import { RecordingTimer } from '../../components/RecordingTimer'
 import { learner } from '../../data/learner'
 import { findEpisode, formatTime, type Episode } from '../../data/podcast'
 import { listeningComfort } from '../../lib/comfort'
 import { speak } from '../../lib/speech'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { NotInDemo } from './NotInDemo'
 import styles from './Listening.module.css'
+import { PlayYours } from '../../components/PlayYours'
 
 const LANG = learner.learning.bcp47
 type Mode = 'off' | 'peek' | 'on'
@@ -39,7 +43,8 @@ function Player({ episode }: { episode: Episode }) {
   // Read inside the playback loop, which outlives renders. `skip` marks a line cut short on purpose.
   const run = useRef({ playing: false, looping: false, skip: false, current: episode.resumeLine, mode: 'peek' as Mode, rate: 1 })
   const peekTimer = useRef<number | undefined>(undefined)
-  const recorder = useRecorder({ maxSeconds: 10 })
+  const recorder = useRecorder()
+  const playback = usePlayback()
 
   useEffect(() => {
     run.current.looping = looping
@@ -128,7 +133,7 @@ function Player({ episode }: { episode: Episode }) {
 
   return (
     <>
-      <Link to="/listen" className={styles.crumb}>Read &amp; listen</Link>
+      <BackLink to="/library">Read &amp; listen</BackLink>
 
       <div className={styles.top}>
         <section className={styles.player}>
@@ -231,15 +236,25 @@ function Player({ episode }: { episode: Episode }) {
               className={`btn ${styles.shadow}`}
               aria-pressed={recording}
               disabled={recorder.status === 'unsupported'}
-              onClick={() => (recording ? recorder.stop() : void recorder.start())}
+              onClick={() => {
+                if (recording) return recorder.stop()
+                playback.stop()
+                void recorder.start()
+              }}
             >
-              {recording ? 'Stop' : 'Shadow this line'}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                {recording ? <rect x="5" y="5" width="14" height="14" rx="2" /> : <circle cx="12" cy="12" r="6" />}
+              </svg>
+              {recording ? 'Stop recording' : recorder.recording ? 'Shadow it again' : 'Shadow this line'}
             </button>
-            {recorder.recording && !recording && (
-              <button type="button" className="btn" onClick={() => void playUrl(recorder.recording!.url)}>
-                Play yours
-              </button>
+            {recording ? (
+              <RecordingTimer elapsed={recorder.elapsed} />
+            ) : (
+              recorder.recording && (
+                <PlayYours url={recorder.recording.url} seconds={recorder.recording.seconds} playback={playback} />
+              )
             )}
+            {recorder.status === 'denied' && <span className={styles.muted}>Allow the microphone to record yourself.</span>}
           </div>
         </section>
       </div>

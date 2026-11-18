@@ -46,7 +46,7 @@ The learner never sees stage names. In code they decide which sections exist and
 
 - Stages 1–3 use the simpler sidebar. From stage 4 the app opens into Read & listen instead of Pronunciation.
 - Routes for sections that aren't open yet redirect to the learner's landing page, with no message.
-- A **dev-only stage switcher** in the bottom-right corner lets you preview each stage. It is stripped from production builds.
+- A **prototype stage switcher** in the bottom-right corner lets you preview each stage. It also ships on the deployed site so reviewers can try every stage, and goes away once there's a backend.
 
 ## Iterations
 
@@ -110,7 +110,7 @@ Still mocked in this iteration:
   - view the original.
 - [x] **Correction layers** (`src/lib/corrections.ts`): the original is never changed. Each corrector's edits are a separate layer anchored to ranges of the original, merged only for display.
 - [x] **Points rules** as pure functions with tests. They also fix a mismatch in the canvas, where Giulia's reward for a 96-word entry was shown as 13 instead of 5 + 3 = 8.
-- [x] **App state** (`src/app/store.ts`): sent entries, approvals, opened entries, starred notes, drafts and points. Saved in localStorage, with a dev "Reset demo" button.
+- [x] **App state** (`src/app/store.ts`): sent entries, approvals, opened entries, starred notes, drafts and points. Saved in localStorage, with a "Reset demo" button in the prototype panel.
 
 Still mocked in this iteration:
 - The automatic check is a short rule list (capitals, punctuation, gaps, a few common slips). A real grammar checker and dictionary come later.
@@ -225,7 +225,7 @@ Still mocked in this iteration:
   3. placement without a test: up to 5 graded texts, tap unknown words, say how each felt, optionally listen to the same text, stop whenever you like, or choose "completely new";
   4. draw your avatar.
 
-  Finishing sets the starting stage from `placeStage` and opens the app there. Learners never see a level. The dev panel has an "Onboarding" button to preview it.
+  Finishing sets the starting stage from `placeStage` and opens the app there. Learners never see a level. The prototype panel has an "Onboarding" button to preview it.
 - [x] All routes are real screens now, so the placeholder is gone.
 - [x] Checked end to end in headless Chrome:
   - settings feeding Booked and the library;
@@ -244,6 +244,18 @@ Still mocked in this iteration:
 - [x] **Chart colours:** validated with the dataviz palette checker in both themes. They're separate from the text accents, because the chart steps that pass in dark mode are too dim for small text.
 - [x] **Theme setting:** the app follows the system by default; Settings › Appearance offers System, Light or Dark. An inline script applies a saved choice before the first paint, so there's no flash.
 - [x] The call screen is always dark, so its colours are pinned rather than themed.
+
+### ✅ Deployment polish
+- [x] **Vercel:** `vercel.json` rewrites every path to `index.html`, so reloading or opening a deep link like `/writing` no longer returns a 404.
+- [x] **Prototype panel on the deployed site:** the stage switcher, Onboarding and Reset demo are no longer limited to development.
+- [x] **One back button for reading and listening:** the reader, the podcast player and the "not in the prototype" notice share a labelled pill ("‹ Read & listen") at the top left.
+- [x] **Language menu:** the sidebar's language button opens a list with Italian selected and the other languages shown as disabled.
+- [x] **Library addresses:** reading and listening live under `/library` (`/library/read/:id`, `/library/listen/:id`), matching the "Read & listen" section. The old `/listen/...` links redirect.
+- [x] **No text-size button:** the reader's "Aa" control is gone. Reading text is sized in `rem`, so the browser's own text-size setting scales it.
+- [x] **Recording yourself:**
+  - every place you record shows a pulsing dot with the time so far, and an explicit "Stop recording" button (`RecordingTimer`, with `elapsed` from `useRecorder`);
+  - there's no time limit: a recording runs until you stop it;
+  - playing your take back uses a wordless button: the play or pause icon plus time played against the length, e.g. ▶ 0:03 / 0:04 (`PlayYours`, `usePlayback`). Pausing and pressing again resumes. Starting a new recording stops playback.
 
 ### ✅ End-to-end tests
 - [x] Playwright (`npm run test:e2e`), 33 tests covering:

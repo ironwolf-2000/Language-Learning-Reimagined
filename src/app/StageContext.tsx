@@ -5,17 +5,15 @@ import { StageContext, type StageState } from './useStage'
 const STORAGE_KEY = 'llr.devStage'
 
 function initialStage(): Stage {
-  // Until there's a backend, the learner's stage is mocked. In development it can
-  // be switched with the stage switcher (or ?stage=3 in the URL) and is remembered between reloads.
-  if (import.meta.env.DEV) {
-    const fromUrl = Number(new URLSearchParams(window.location.search).get('stage'))
-    if (fromUrl >= 1 && fromUrl <= 6) return fromUrl as Stage
-    try {
-      const saved = Number(localStorage.getItem(STORAGE_KEY))
-      if (saved >= 1 && saved <= 6) return saved as Stage
-    } catch {
-      // Storage can be unavailable (private mode, blocked site data).
-    }
+  // Until there's a backend, the learner's stage is mocked. It can be switched with the
+  // prototype's stage switcher (or ?stage=3 in the URL) and is remembered between reloads.
+  const fromUrl = Number(new URLSearchParams(window.location.search).get('stage'))
+  if (fromUrl >= 1 && fromUrl <= 6) return fromUrl as Stage
+  try {
+    const saved = Number(localStorage.getItem(STORAGE_KEY))
+    if (saved >= 1 && saved <= 6) return saved as Stage
+  } catch {
+    // Storage can be unavailable (private mode, blocked site data).
   }
   return 4
 }

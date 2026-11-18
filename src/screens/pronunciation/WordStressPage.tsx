@@ -2,9 +2,12 @@ import { PlayButton, RecordButton } from '../../components/RoundButton'
 import { learner } from '../../data/learner'
 import { FIRST_HEARD, STRESS_PAIRS, STRESS_PATTERNS, type FirstHeard } from '../../data/pronunciation'
 import { useSpeaker } from '../../lib/speech'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { PronunciationHeader } from './PronunciationHeader'
 import styles from './Pronunciation.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
+import { PlayYours } from '../../components/PlayYours'
 
 const LANG = learner.learning.bcp47
 
@@ -89,7 +92,8 @@ export function WordStressPage() {
 }
 
 function FirstHeardRow({ word, speaker }: { word: FirstHeard; speaker: ReturnType<typeof useSpeaker> }) {
-  const recorder = useRecorder({ maxSeconds: 4 })
+  const recorder = useRecorder()
+  const playback = usePlayback()
   const text = word.syllables.join('')
   const recording = recorder.status === 'recording'
 
@@ -107,10 +111,10 @@ function FirstHeardRow({ word, speaker }: { word: FirstHeard; speaker: ReturnTyp
         <span className={styles.muted}>{word.where}</span>
       </span>
       <span className={styles.result}>
-        {recorder.recording ? (
-          <button type="button" className={styles.linkBtn} onClick={() => void playUrl(recorder.recording!.url)}>
-            Play yours
-          </button>
+        {recording ? (
+          <RecordingTimer elapsed={recorder.elapsed} />
+        ) : recorder.recording ? (
+          <PlayYours url={recorder.recording.url} seconds={recorder.recording.seconds} playback={playback} className={styles.linkBtn} />
         ) : (
           'Heard once'
         )}
@@ -119,7 +123,11 @@ function FirstHeardRow({ word, speaker }: { word: FirstHeard; speaker: ReturnTyp
         label={recording ? `Stop recording ${text}` : `Say ${text} once`}
         recording={recording}
         disabled={recorder.status === 'unsupported'}
-        onClick={() => (recording ? recorder.stop() : void recorder.start())}
+        onClick={() => {
+          if (recording) return recorder.stop()
+          playback.stop()
+          void recorder.start()
+        }}
       />
     </div>
   )

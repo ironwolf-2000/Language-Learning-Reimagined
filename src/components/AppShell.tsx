@@ -14,7 +14,7 @@ export function AppShell() {
           <Outlet />
         </div>
       </main>
-      {import.meta.env.DEV && <DevStageSwitch />}
+      <DevStageSwitch />
     </div>
   )
 }

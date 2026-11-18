@@ -35,18 +35,23 @@ async function analyse(blob: Blob, buckets: number, contourPoints: number) {
  */
 export function useRecorder({
   buckets = 48,
-  maxSeconds = 10,
+  /** Stop on its own after this many seconds. By default a recording runs until the learner stops it. */
+  maxSeconds = Infinity,
   contourPoints = 0,
   /** Keep earlier recordings playable (their URLs aren't revoked) when a new one arrives. */
   keepPrevious = false,
 } = {}) {
   const [status, setStatus] = useState<RecorderStatus>(supported ? 'idle' : 'unsupported')
   const [recording, setRecording] = useState<Recording | null>(null)
+  /** Seconds since the current recording started, updated a few times a second while recording. */
+  const [elapsed, setElapsed] = useState(0)
   const recorder = useRef<MediaRecorder | null>(null)
   const timer = useRef<number | undefined>(undefined)
+  const ticker = useRef<number | undefined>(undefined)
 
   const stop = useCallback(() => {
     window.clearTimeout(timer.current)
+    window.clearInterval(ticker.current)
     if (recorder.current?.state === 'recording') recorder.current.stop()
   }, [])
 
@@ -58,6 +63,7 @@ export function useRecorder({
       const chunks: Blob[] = []
       rec.ondataavailable = (e) => chunks.push(e.data)
       rec.onstop = async () => {
+        window.clearInterval(ticker.current)
         stream.getTracks().forEach((t) => t.stop())
         const blob = new Blob(chunks, { type: rec.mimeType })
         const analysed = await analyse(blob, buckets, contourPoints)
@@ -69,8 +75,12 @@ export function useRecorder({
       }
       recorder.current = rec
       rec.start()
+      const startedAt = performance.now()
+      setElapsed(0)
       setStatus('recording')
-      timer.current = window.setTimeout(stop, maxSeconds * 1000)
+      window.clearInterval(ticker.current)
+      ticker.current = window.setInterval(() => setElapsed((performance.now() - startedAt) / 1000), 100)
+      if (Number.isFinite(maxSeconds)) timer.current = window.setTimeout(stop, maxSeconds * 1000)
     } catch {
       setStatus('denied')
     }
@@ -85,10 +95,11 @@ export function useRecorder({
 
   useEffect(() => () => {
     window.clearTimeout(timer.current)
+    window.clearInterval(ticker.current)
     if (recorder.current?.state === 'recording') recorder.current.stop()
   }, [])
 
-  return { status, recording, start, stop, clear }
+  return { status, recording, elapsed, start, stop, clear }
 }
 
 export function playUrl(url: string): Promise<void> {

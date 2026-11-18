@@ -33,10 +33,10 @@ describe('filterMaterials', () => {
 
 describe('materialPath', () => {
   it('opens reading in the reader and audio or video in the player', () => {
-    expect(materialPath({ id: 'a', kind: 'story' })).toBe('/listen/read/a')
-    expect(materialPath({ id: 'b', kind: 'article' })).toBe('/listen/read/b')
-    expect(materialPath({ id: 'c', kind: 'podcast' })).toBe('/listen/audio/c')
-    expect(materialPath({ id: 'd', kind: 'video' })).toBe('/listen/audio/d')
+    expect(materialPath({ id: 'a', kind: 'story' })).toBe('/library/read/a')
+    expect(materialPath({ id: 'b', kind: 'article' })).toBe('/library/read/b')
+    expect(materialPath({ id: 'c', kind: 'podcast' })).toBe('/library/listen/c')
+    expect(materialPath({ id: 'd', kind: 'video' })).toBe('/library/listen/d')
   })
 })
 

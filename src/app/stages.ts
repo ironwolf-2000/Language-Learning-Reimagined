@@ -37,7 +37,7 @@ export const isFull = (stage: Stage) => stage >= FULL_FROM
 export const SECTIONS: Record<SectionKey, Section> = {
   listen: {
     key: 'listen',
-    path: '/listen',
+    path: '/library',
     opensAt: 3,
     label: (s) => (isFull(s) ? 'Read & listen' : 'Listen & read'),
   },

@@ -12,11 +12,13 @@ import { checkPhrase, type Issue } from '../../lib/autocheck'
 import { applyEdits } from '../../lib/corrections'
 import { entryCost } from '../../lib/points'
 import { useSpeaker } from '../../lib/speech'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { countWords } from '../../lib/writing'
 import { CorrectedText } from '../corrections/CorrectedText'
 import { formatDate } from '../corrections/entryMeta'
 import styles from './Writing.module.css'
+import { PlayPauseIcon } from '../../components/RoundButton'
 
 type Mode = 'auto' | 'correct' | 'private'
 const MAX_LINES = 6
@@ -225,13 +227,19 @@ function CheckResult({ issues, onUse }: { issues: Issue[]; onUse: (s: string) =>
 
 /** Say a phrase out loud. Optional, and it stays in the browser. */
 function PhraseMic({ index, disabled }: { index: number; disabled: boolean }) {
-  const recorder = useRecorder({ maxSeconds: 6 })
+  const recorder = useRecorder()
+  const playback = usePlayback()
   const recording = recorder.status === 'recording'
   return (
     <span className={styles.micGroup}>
       {recorder.recording && !recording && (
-        <button type="button" className={styles.micPlay} aria-label={`Play phrase ${index + 1}`} onClick={() => void playUrl(recorder.recording!.url)}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
+        <button
+          type="button"
+          className={styles.micPlay}
+          aria-label={`${playback.isPlaying(recorder.recording.url) ? 'Pause' : 'Play'} phrase ${index + 1}`}
+          onClick={() => playback.toggle(recorder.recording!.url)}
+        >
+          <PlayPauseIcon playing={playback.isPlaying(recorder.recording.url)} size={12} />
         </button>
       )}
       <button
@@ -241,7 +249,11 @@ function PhraseMic({ index, disabled }: { index: number; disabled: boolean }) {
         aria-pressed={recording}
         aria-label={recording ? `Stop recording phrase ${index + 1}` : `Say phrase ${index + 1} out loud`}
         disabled={disabled || recorder.status === 'unsupported'}
-        onClick={() => (recording ? recorder.stop() : void recorder.start())}
+        onClick={() => {
+          if (recording) return recorder.stop()
+          playback.stop()
+          void recorder.start()
+        }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
           <rect x="9" y="3" width="6" height="11" rx="3" />

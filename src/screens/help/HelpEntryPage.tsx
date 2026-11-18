@@ -10,10 +10,13 @@ import { correctionsLabel, waitLabel } from '../../lib/helpQueue'
 import { correctorReward, VOICE_BONUS } from '../../lib/points'
 import { overlaps, snapToWords } from '../../lib/selection'
 import { useSpeaker } from '../../lib/speech'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { HelperStats } from './HelperStats'
 import { kindLabel, rewardFor } from './helpMeta'
 import styles from './Help.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
+import { PlayYours } from '../../components/PlayYours'
 
 /** The helper's own language. The demo learner helps with English. */
 const HELP_LANG = 'en-GB'
@@ -65,7 +68,8 @@ function Correcting({ item }: { item: HelpItem }) {
   const navigate = useNavigate()
   const queue = useQueueLink()
   const speaker = useSpeaker(HELP_LANG)
-  const recorder = useRecorder({ maxSeconds: 120 })
+  const recorder = useRecorder()
+  const playback = usePlayback()
   const textRef = useRef<HTMLDivElement>(null)
   const nextId = useRef(1)
 
@@ -334,12 +338,17 @@ function Correcting({ item }: { item: HelpItem }) {
                     className={`btn ${styles.recBtn}`}
                     aria-pressed={recording}
                     disabled={recorder.status === 'unsupported'}
-                    onClick={() => (recording ? recorder.stop() : void recorder.start())}
+                    onClick={() => {
+                      if (recording) return recorder.stop()
+                      playback.stop()
+                      void recorder.start()
+                    }}
                   >
-                    {recording ? 'Stop' : recorder.recording ? 'Record again' : 'Record'}
+                    {recording ? 'Stop recording' : recorder.recording ? 'Record again' : 'Record'}
                   </button>
+                  {recording && <RecordingTimer elapsed={recorder.elapsed} />}
                   {recorder.recording && !recording && (
-                    <button type="button" className="btn" onClick={() => void playUrl(recorder.recording!.url)}>Play it back</button>
+                    <PlayYours url={recorder.recording.url} seconds={recorder.recording.seconds} playback={playback} what="your reading" />
                   )}
                   {recorder.status === 'denied' && <span className={styles.muted}>Allow the microphone to record.</span>}
                 </div>

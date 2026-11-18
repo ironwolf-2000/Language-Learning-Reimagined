@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router'
 import { StageProvider } from './app/StageContext'
 import { ThemeSync } from './app/ThemeSync'
 import { useAppState } from './app/store'
@@ -57,6 +57,11 @@ function WritingHome() {
 }
 
 /** Beginners shadow short scenes; real materials open at the sentence stage. */
+function MovedTo({ prefix }: { prefix: string }) {
+  const { id = '' } = useParams()
+  return <Navigate to={prefix + id} replace />
+}
+
 function ListenHome() {
   const { stage } = useStage()
   return isFull(stage) ? <LibraryPage /> : <ShadowingPage />
@@ -80,9 +85,13 @@ export default function App() {
             {pronunciation('/pronunciation/sentence-stress', <SentenceStressPage />)}
             {pronunciation('/pronunciation/intonation', <IntonationPage />)}
 
-            <Route path="listen" element={<Gate section="listen"><ListenHome /></Gate>} />
-            <Route path="listen/read/:id" element={<Gate section="listen"><ReaderPage /></Gate>} />
-            <Route path="listen/audio/:id" element={<Gate section="listen"><ListeningPage /></Gate>} />
+            <Route path="library" element={<Gate section="listen"><ListenHome /></Gate>} />
+            <Route path="library/read/:id" element={<Gate section="listen"><ReaderPage /></Gate>} />
+            <Route path="library/listen/:id" element={<Gate section="listen"><ListeningPage /></Gate>} />
+            {/* Earlier addresses, kept so old links and bookmarks still work. */}
+            <Route path="listen" element={<Navigate to="/library" replace />} />
+            <Route path="listen/read/:id" element={<MovedTo prefix="/library/read/" />} />
+            <Route path="listen/audio/:id" element={<MovedTo prefix="/library/listen/" />} />
 
             <Route path="writing" element={<Gate section="writing"><WritingHome /></Gate>} />
             <Route path="corrections" element={<Gate section="corrections"><CorrectionsListPage /></Gate>} />

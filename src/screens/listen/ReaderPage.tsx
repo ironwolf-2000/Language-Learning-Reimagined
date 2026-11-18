@@ -1,5 +1,6 @@
 import { Fragment, useMemo, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
+import { BackLink } from '../../components/BackLink'
 import { learner } from '../../data/learner'
 import { findChapter, parseParagraph, countWords, type Chapter, type Phrase } from '../../data/reader'
 import { PACE_TEXT, readingPace, wordGroups, type Feeling, type GroupedPhrase } from '../../lib/comfort'
@@ -8,7 +9,6 @@ import { NotInDemo } from './NotInDemo'
 import styles from './Reader.module.css'
 
 const LANG = learner.learning.bcp47
-const SIZES = [19, 21, 24]
 
 export function ReaderPage() {
   const { id = '' } = useParams()
@@ -18,7 +18,6 @@ export function ReaderPage() {
 
 function Reader({ chapter }: { chapter: Chapter }) {
   const [hints, setHints] = useState(true)
-  const [size, setSize] = useState(1)
   const [open, setOpen] = useState<string | null>(chapter.lookups.at(-1) ?? null)
   const [lookups, setLookups] = useState<Set<string>>(() => new Set(chapter.lookups))
   const [feeling, setFeeling] = useState<Feeling | null>(null)
@@ -63,11 +62,7 @@ function Reader({ chapter }: { chapter: Chapter }) {
     <div className={styles.page}>
       <div className={styles.bar}>
         <div className={styles.barTitle}>
-          <Link to="/listen" aria-label="Back to the library" className={styles.back}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M15 5l-7 7 7 7" />
-            </svg>
-          </Link>
+          <BackLink to="/library">Read &amp; listen</BackLink>
           <span>
             <strong>{chapter.book}</strong>
             <span className={styles.muted}>Chapter {chapter.number} of {chapter.of} · {chapter.title}</span>
@@ -81,14 +76,6 @@ function Reader({ chapter }: { chapter: Chapter }) {
           <button type="button" className="btn" aria-pressed={listening} onClick={() => void toggleListening()}>
             {listening ? 'Stop listening' : 'Listen along'}
           </button>
-          <button
-            type="button"
-            className={`btn ${styles.aa}`}
-            aria-label={`Text size, ${['small', 'medium', 'large'][size]}`}
-            onClick={() => setSize((size + 1) % SIZES.length)}
-          >
-            Aa
-          </button>
         </div>
       </div>
 
@@ -96,7 +83,7 @@ function Reader({ chapter }: { chapter: Chapter }) {
         <article className={styles.article}>
           <p className="eyebrow">Capitolo {chapter.number}</p>
           <h1 className={`it ${styles.title}`} lang="it">{chapter.title}</h1>
-          <div className={`it ${styles.prose}`} lang="it" style={{ fontSize: SIZES[size] }}>
+          <div className={`it ${styles.prose}`} lang="it">
             {paragraphs.map((segments, i) => {
               const openHere = segments.find((s) => s.phraseId === open)
               return (

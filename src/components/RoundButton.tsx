@@ -6,19 +6,24 @@ type Base = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   tone?: 'dark' | 'light' | 'indigo'
 }
 
+/** A play triangle, or two pause bars while something is playing. */
+export function PlayPauseIcon({ playing, size = 16 }: { playing: boolean; size?: number }) {
+  return playing ? (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </svg>
+  ) : (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>
+  )
+}
+
 export function PlayButton({ label, playing = false, tone = 'dark', className = '', ...rest }: Base & { playing?: boolean }) {
   return (
     <button type="button" aria-label={label} className={`${styles.round} ${styles[tone]} ${className}`} {...rest}>
-      {playing ? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="6" y="5" width="4" height="14" rx="1" />
-          <rect x="14" y="5" width="4" height="14" rx="1" />
-        </svg>
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M8 5.5v13l11-6.5z" />
-        </svg>
-      )}
+      <PlayPauseIcon playing={playing} />
     </button>
   )
 }

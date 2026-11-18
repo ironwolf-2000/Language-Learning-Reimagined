@@ -5,6 +5,7 @@ import { navSections } from '../app/stages'
 import { toReviewCount, useAppState } from '../app/store'
 import { learner } from '../data/learner'
 import { Icon } from './Icon'
+import { LanguageMenu } from './LanguageMenu'
 import styles from './Sidebar.module.css'
 
 export function Sidebar() {
@@ -21,13 +22,7 @@ export function Sidebar() {
         <span className="display">reimagined</span>
       </span>
 
-      <button type="button" className={styles.language}>
-        <span className={styles.languageName}>
-          <span className={styles.code}>{learner.learning.code}</span>
-          {learner.learning.name}
-        </span>
-        <Icon name="chevronDown" size={16} />
-      </button>
+      <LanguageMenu />
 
       <nav aria-label="Main" className={styles.nav}>
         {navSections(stage).map((section) => (

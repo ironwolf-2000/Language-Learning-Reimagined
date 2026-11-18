@@ -37,7 +37,7 @@ export const KIND_LABEL: Record<MaterialKind, string> = {
 
 /** Reading opens in the reader; audio and video open in the listening player. */
 export const materialPath = (m: Pick<Material, 'id' | 'kind'>) =>
-  m.kind === 'podcast' || m.kind === 'video' ? `/listen/audio/${m.id}` : `/listen/read/${m.id}`
+  m.kind === 'podcast' || m.kind === 'video' ? `/library/listen/${m.id}` : `/library/read/${m.id}`
 
 const m = (
   id: string,

@@ -7,6 +7,7 @@ import { playUrl, useRecorder } from '../../lib/useRecorder'
 import { placeholderBars } from '../../lib/waveform'
 import { PronunciationTabs } from './PronunciationTabs'
 import styles from './SoundsPage.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
 
 const STATUS_LABEL: Record<SoundStatus, string> = { familiar: 'Familiar', practising: 'Practising', new: 'Not yet' }
 const LANG = learner.learning.bcp47
@@ -129,7 +130,11 @@ function SoundDetail({ sound }: { sound: Sound }) {
             <span>
               Listen back: <span className="it" lang="it">{target}</span>
             </span>
-            <span className={styles.lbMeta}>{recorderLabel(recorder.status, recorder.recording?.seconds)}</span>
+            {recorder.status === 'recording' ? (
+              <RecordingTimer elapsed={recorder.elapsed} />
+            ) : (
+              <span className={styles.lbMeta}>{recorderLabel(recorder.status, recorder.recording?.seconds)}</span>
+            )}
           </div>
           <Waveform label="Speaker" bars={speakerBars} color="#9FA3FF" />
           <Waveform label="You" bars={yourBars} color="#FF8A66" />
@@ -141,7 +146,7 @@ function SoundDetail({ sound }: { sound: Sound }) {
               Play both
             </button>
             <button type="button" className={`btn ${styles.ghost}`} onClick={() => record(target)}>
-              {recorder.status === 'recording' ? 'Stop' : recorder.recording ? 'Try again' : 'Record'}
+              {recorder.status === 'recording' ? 'Stop recording' : recorder.recording ? 'Try again' : 'Record'}
             </button>
           </div>
         </div>
@@ -155,7 +160,6 @@ function SoundDetail({ sound }: { sound: Sound }) {
 function recorderLabel(status: string, seconds?: number) {
   if (status === 'unsupported') return 'Recording isn’t available in this browser'
   if (status === 'denied') return 'Allow the microphone to record yourself'
-  if (status === 'recording') return 'Recording…'
   if (seconds) return `Your recording · 0:${String(Math.max(1, Math.round(seconds))).padStart(2, '0')}`
   return 'No recording yet'
 }

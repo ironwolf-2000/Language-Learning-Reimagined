@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test'
 import { open } from './helpers'
 
 test('the archive loads older months as you scroll', async ({ page }) => {
+  // Recent demo entries are dated "n days ago", so pin the clock to keep the months stable.
+  await page.clock.setFixedTime(new Date('2026-10-30T12:00:00'))
   await open(page, '/profile/archive')
   const months = page.locator('section > h2')
   await expect(months).toHaveText(['October 2026'])

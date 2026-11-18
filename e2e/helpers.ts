@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 
-/** Opens a page at a given stage of the ladder (dev-only `?stage=`); the default demo learner is at stage 4. */
+/** Opens a page at a given stage of the ladder (prototype `?stage=`); the default demo learner is at stage 4. */
 export async function open(page: Page, path: string, stage?: number) {
   const url = stage ? `${path}${path.includes('?') ? '&' : '?'}stage=${stage}` : path
   await page.goto(url)

@@ -25,8 +25,8 @@ describe('stages', () => {
   it('opens into pronunciation for beginners and the library afterwards', () => {
     expect(landingPath(1)).toBe('/pronunciation')
     expect(landingPath(3)).toBe('/pronunciation')
-    expect(landingPath(4)).toBe('/listen')
-    expect(landingPath(6)).toBe('/listen')
+    expect(landingPath(4)).toBe('/library')
+    expect(landingPath(6)).toBe('/library')
   })
 
   it('labels the input section by stage', () => {

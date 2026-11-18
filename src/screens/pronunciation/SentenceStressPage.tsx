@@ -2,9 +2,12 @@ import { PlayButton, RecordButton } from '../../components/RoundButton'
 import { learner } from '../../data/learner'
 import { SENTENCE_QUESTIONS, STRESS_SENTENCE } from '../../data/pronunciation'
 import { speak, useSpeaker } from '../../lib/speech'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { PronunciationHeader } from './PronunciationHeader'
 import styles from './Pronunciation.module.css'
+import { RecordingTimer } from '../../components/RecordingTimer'
+import { PlayYours } from '../../components/PlayYours'
 
 const LANG = learner.learning.bcp47
 
@@ -26,7 +29,8 @@ export function SentenceStressPage() {
 
 function QuestionRow({ item, first }: { item: (typeof SENTENCE_QUESTIONS)[number]; first: boolean }) {
   const speaker = useSpeaker(LANG)
-  const recorder = useRecorder({ maxSeconds: 6 })
+  const recorder = useRecorder()
+  const playback = usePlayback()
   const recording = recorder.status === 'recording'
   const answer = STRESS_SENTENCE.join(' ')
 
@@ -52,15 +56,19 @@ function QuestionRow({ item, first }: { item: (typeof SENTENCE_QUESTIONS)[number
           label={recording ? 'Stop recording' : 'Record your answer'}
           recording={recording}
           disabled={recorder.status === 'unsupported'}
-          onClick={() => (recording ? recorder.stop() : void recorder.start())}
+          onClick={() => {
+            if (recording) return recorder.stop()
+            playback.stop()
+            void recorder.start()
+          }}
         />
       </div>
       <span className={styles.questionFoot}>
-        {recorder.recording ? (
+        {recording ? (
+          <RecordingTimer elapsed={recorder.elapsed} />
+        ) : recorder.recording ? (
           <>
-            <button type="button" className={styles.linkBtn} onClick={() => void playUrl(recorder.recording!.url)}>
-              Play yours
-            </button>
+            <PlayYours url={recorder.recording.url} seconds={recorder.recording.seconds} playback={playback} className={styles.linkBtn} />
             <span>{item.why}</span>
           </>
         ) : (

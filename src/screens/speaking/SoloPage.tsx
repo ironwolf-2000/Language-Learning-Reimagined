@@ -6,10 +6,12 @@ import { learner } from '../../data/learner'
 import { SOLO_PROMPTS } from '../../data/speaking'
 import { formatClock } from '../../lib/calls'
 import { entryCost } from '../../lib/points'
-import { playUrl, useRecorder } from '../../lib/useRecorder'
+import { usePlayback } from '../../lib/usePlayback'
+import { useRecorder } from '../../lib/useRecorder'
 import { useTranscriber } from '../../lib/useTranscriber'
 import { SpeakingHeader } from './SpeakingHeader'
 import styles from './Speaking.module.css'
+import { PlayPauseIcon } from '../../components/RoundButton'
 
 type Take = { url: string; bars: number[]; seconds: number; transcript: string }
 type Dest = 'correct' | 'keep'
@@ -17,7 +19,8 @@ type Dest = 'correct' | 'keep'
 export function SoloPage() {
   const navigate = useNavigate()
   const points = useAppState((s) => s.points)
-  const recorder = useRecorder({ buckets: 90, maxSeconds: 300, keepPrevious: true })
+  const recorder = useRecorder({ buckets: 90, keepPrevious: true })
+  const playback = usePlayback()
   const transcriber = useTranscriber(learner.learning.bcp47)
   const [promptIndex, setPromptIndex] = useState(0)
   // Earlier takes; the latest one is whatever the recorder holds now.
@@ -48,6 +51,7 @@ export function SoloPage() {
   const clearTakes = () => {
     setEarlier([])
     setPicked(null)
+    playback.stop()
     recorder.clear()
   }
 
@@ -56,6 +60,7 @@ export function SoloPage() {
       recorder.stop()
       transcriber.stop()
     } else {
+      playback.stop()
       // The previous recording becomes an earlier take before the new one starts.
       if (latest) setEarlier([...earlier, latest])
       setPicked(null)
@@ -152,8 +157,13 @@ export function SoloPage() {
             <div className={styles.takes} role="radiogroup" aria-label="Which take to keep">
               {takes.map((t, i) => (
                 <div key={t.url} className={styles.take} data-chosen={i === chosen || undefined}>
-                  <button type="button" className={styles.takePlay} aria-label={`Play take ${i + 1}`} onClick={() => void playUrl(t.url)}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
+                  <button
+                    type="button"
+                    className={styles.takePlay}
+                    aria-label={`${playback.isPlaying(t.url) ? 'Pause' : 'Play'} take ${i + 1}`}
+                    onClick={() => playback.toggle(t.url)}
+                  >
+                    <PlayPauseIcon playing={playback.isPlaying(t.url)} size={18} />
                   </button>
                   <div className={styles.takeWave} aria-hidden="true">
                     {t.bars.map((v, j) => (

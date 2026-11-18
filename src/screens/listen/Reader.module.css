@@ -33,22 +33,6 @@
   font-size: 15px;
 }
 
-.back {
-  width: 40px;
-  height: 40px;
-  flex: none;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
-}
-.back:hover {
-  color: var(--ink);
-  background: var(--bg);
-}
-
 .barActions {
   display: flex;
   gap: 8px;
@@ -62,11 +46,6 @@
 .hintKey {
   width: 14px;
   border-bottom: 2px dotted var(--coral);
-}
-
-.aa {
-  padding: 0 14px;
-  font: 400 17px var(--font-it);
 }
 
 .body {
@@ -94,6 +73,8 @@
 }
 
 .prose {
+  /* In rem, so the browser's own text-size setting scales it. */
+  font-size: 1.3125rem;
   line-height: 1.75;
   color: var(--ink-body);
 }

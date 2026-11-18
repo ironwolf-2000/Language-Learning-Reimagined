@@ -11,12 +11,12 @@ test('your rate and free times drive booked calls', async ({ page }) => {
 })
 
 test('topics decide the shelves in Read & listen', async ({ page }) => {
-  await open(page, '/listen')
+  await open(page, '/library')
   await expect(page.getByRole('radio', { name: 'Cinema' })).toBeVisible()
   await page.getByRole('link', { name: 'Edit your topics' }).click()
   await expect(page).toHaveURL(/\/settings#topics/)
   await page.locator('#topics').getByRole('button', { name: 'Cinema' }).click()
-  await open(page, '/listen')
+  await open(page, '/library')
   await expect(page.getByRole('radio', { name: 'Cinema' })).toHaveCount(0)
 })
 
@@ -54,7 +54,7 @@ test('onboarding places a comfortable reader in the library', async ({ page }) =
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Draw your face')
   await page.getByRole('button', { name: 'Start learning' }).click()
-  await expect(page).toHaveURL(/\/listen$/)
+  await expect(page).toHaveURL(/\/library$/)
   await expect(page.getByRole('heading', { level: 1, name: 'Read & listen' })).toBeVisible()
 })
 

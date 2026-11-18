@@ -4,14 +4,14 @@ import { useStage } from './useStage'
 import { landingPath, STAGES, type Stage } from './stages'
 import styles from './DevStageSwitch.module.css'
 
-/** Development only: preview the platform at each stage of the ladder. */
+/** Prototype only: preview the platform at each stage of the ladder. Remove once there's a backend. */
 export function DevStageSwitch() {
   const { stage, setStage } = useStage()
   const navigate = useNavigate()
 
   return (
     <label className={styles.switch}>
-      <span>Dev · stage</span>
+      <span>Prototype · stage</span>
       <select
         value={stage}
         onChange={(e) => {
